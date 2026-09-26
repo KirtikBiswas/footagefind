@@ -1,0 +1,73 @@
+{
+  "description": "FootageFind evaluation queries. Ground-truth time ranges (seconds from file start) were set by manually inspecting every 0.5 s of vtest.avi and every 0.4 s of indoor_desk.avi (contact sheets), and are independent of any model output. Queries whose ground truth could not be established confidently were dropped (see 'dropped'). A hit counts as correct when its best timestamp lies inside a ground-truth range for the right video, widened by 'tolerance_s' on both sides (half the 2 fps sampling interval).",
+  "tolerance_s": 0.25,
+  "videos": {
+    "vtest.avi": {
+      "source": "https://raw.githubusercontent.com/opencv/opencv/4.x/samples/data/vtest.avi",
+      "duration_s": 79.5,
+      "notes": "768x576 @ 10 fps, fixed elevated camera over a campus road junction and lawn (PETS-style). Pedestrians only; the white van and cars in the background are parked for the whole clip."
+    },
+    "indoor_desk.avi": {
+      "source": "https://raw.githubusercontent.com/opencv/opencv_extra/4.x/testdata/cv/video/1920x1080.avi",
+      "duration_s": 6.6,
+      "notes": "1920x1080 @ 25 fps indoor clip: a man in a striped shirt handles toys (duck, clown, ball) on a table. Used as a second 'camera' so cross-video retrieval is tested."
+    }
+  },
+  "queries": [
+    {"id": "q01", "category": "event", "query": "a man and a woman walking together on the grass",
+     "gt": [{"video": "vtest.avi", "start": 50.5, "end": 58.0}],
+     "evidence": [53.5, 55.0], "evidence_note": "Couple (man in red/navy jacket, blonde woman in black coat) enters the lawn bottom-right at ~50.5 s and walks across it together; they separate at ~58 s."},
+    {"id": "q02", "category": "event", "query": "a woman with curly blonde hair in a long black coat walking alone on the grass",
+     "gt": [{"video": "vtest.avi", "start": 58.0, "end": 74.5}],
+     "evidence": [62.5, 67.0], "evidence_note": "After the man leaves her at ~58 s she walks alone across the lawn, leaving at the left edge ~74.5 s."},
+    {"id": "q03", "category": "event", "query": "a woman in a red jacket",
+     "gt": [{"video": "vtest.avi", "start": 42.0, "end": 57.5}, {"video": "vtest.avi", "start": 61.0, "end": 79.5}],
+     "evidence": [44.0, 72.5], "evidence_note": "Enters right edge at 42 s, crosses to the left edge (gone ~57.5 s); re-appears at left near the cones at 61 s and walks up the back road until the end. Broad ground truth (~70% of the clip): see random baseline."},
+    {"id": "q04", "category": "event", "query": "a person in a white hooded jacket",
+     "gt": [{"video": "vtest.avi", "start": 11.5, "end": 21.5}],
+     "evidence": [13.5, 16.0], "evidence_note": "Person in a white/pale-blue hooded jacket enters right at 11.5 s, walks left past the signpost, and leaves the far left at ~21.5 s."},
+    {"id": "q05", "category": "event", "query": "a man in a blue jacket and grey trousers",
+     "gt": [{"video": "vtest.avi", "start": 65.5, "end": 74.0}],
+     "evidence": [66.5, 68.0], "evidence_note": "Grey-haired man in a mid-blue jacket enters right at ~65.5 s, walks up-left past the signpost, leaves far left ~74 s."},
+    {"id": "q06", "category": "event", "query": "a group of three people standing and talking next to a signpost",
+     "gt": [{"video": "vtest.avi", "start": 2.5, "end": 8.5}],
+     "evidence": [3.5, 5.0], "evidence_note": "Three men stand together at the green signpost from ~2.5 s to ~8.5 s."},
+    {"id": "q07", "category": "event", "query": "a person right next to the camera tripod on the grass",
+     "gt": [{"video": "vtest.avi", "start": 51.5, "end": 53.0}, {"video": "vtest.avi", "start": 59.5, "end": 61.0}],
+     "evidence": [52.0, 60.0], "evidence_note": "The couple passes immediately beside the tripod at 51.5-53 s; the man in the red/navy jacket stands at the tripod at 59.5-61 s."},
+    {"id": "q08", "category": "event", "query": "people walking on the grass",
+     "gt": [{"video": "vtest.avi", "start": 50.5, "end": 74.5}],
+     "evidence": [54.0, 69.0], "evidence_note": "The lawn is only walked on between 50.5 s (couple arrives) and 74.5 s (blonde woman leaves)."},
+    {"id": "q09", "category": "event", "query": "a man in a red jacket walking on the grass",
+     "gt": [{"video": "vtest.avi", "start": 50.5, "end": 61.0}],
+     "evidence": [52.5, 58.5], "evidence_note": "Man in red/navy jacket on the lawn from 50.5 s until he steps back onto the road past the tripod at ~61 s."},
+    {"id": "q10", "category": "event", "query": "a man in a red jacket walking side by side with a blonde woman on the road",
+     "gt": [{"video": "vtest.avi", "start": 1.5, "end": 12.0}, {"video": "vtest.avi", "start": 26.0, "end": 37.5}],
+     "evidence": [4.5, 33.0], "evidence_note": "Same couple walks on the road twice: 1.5-12 s (right edge up to the back road) and 26-37.5 s (back road down the right side)."},
+    {"id": "q11", "category": "event", "query": "a man holding a colourful ball",
+     "gt": [{"video": "indoor_desk.avi", "start": 4.6, "end": 6.6}],
+     "evidence": [5.0, 6.2], "evidence_note": "He lifts the ball at ~4.6 s and holds it until the end."},
+    {"id": "q12", "category": "event", "query": "a man with his hand on top of a toy clown",
+     "gt": [{"video": "indoor_desk.avi", "start": 1.4, "end": 3.2}],
+     "evidence": [1.8, 2.6], "evidence_note": "Right hand rests on the clown's head from ~1.4 s to ~3.2 s."},
+    {"id": "q13", "category": "event", "query": "a man reaching across the table to pick up a ball",
+     "gt": [{"video": "indoor_desk.avi", "start": 3.7, "end": 4.7}],
+     "evidence": [4.2], "evidence_note": "Reaches left for the ball at ~3.7 s, grasps it at 4.2 s, lifts it by 4.6 s."},
+    {"id": "q14", "category": "scene", "query": "colourful children's toys on a wooden table",
+     "gt": [{"video": "indoor_desk.avi", "start": 0.0, "end": 6.6}],
+     "evidence": [0.0], "evidence_note": "Whole indoor clip. Tests picking the right video, not the right moment."},
+    {"id": "q15", "category": "scene", "query": "a white van parked in front of a brick building",
+     "gt": [{"video": "vtest.avi", "start": 0.0, "end": 79.5}],
+     "evidence": [0.0], "evidence_note": "Van is parked at the top of every vtest frame. Tests picking the right video."},
+    {"id": "q16", "category": "scene", "query": "a man in a striped short-sleeved shirt",
+     "gt": [{"video": "indoor_desk.avi", "start": 0.0, "end": 6.6}],
+     "evidence": [3.0], "evidence_note": "Only the indoor clip has a striped short-sleeved shirt; vtest pedestrians wear winter coats."}
+  ],
+  "dropped": [
+    {"query": "a person carrying white papers", "reason": "At least five different people carry small white papers/bags at many times (1.5-12 s, 23.5 s, 26-37 s, 38-40.5 s, 51-66 s, 70-72 s, 74-79 s); too small at 768x576 to label every instance confidently."},
+    {"query": "an almost empty street", "reason": "Subjective person-count threshold."},
+    {"query": "a crowd of people crossing the road", "reason": "Subjective; most of the clip qualifies."},
+    {"query": "a vehicle driving past", "reason": "No vehicle moves in either clip."},
+    {"query": "a person carrying a large bag near the gate", "reason": "The README's example query; no such event exists in the available test footage, so it cannot be scored."}
+  ]
+}
