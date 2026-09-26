@@ -1,0 +1,57 @@
+# FootageFind default configuration (x86 CPU dev box or Snapdragon laptop).
+# Paths are relative to the repository root.
+
+[runtime]
+# Tried in order; unavailable providers are skipped and logged.
+providers = ["QNNExecutionProvider", "CPUExecutionProvider"]
+qnn_backend_path = "QnnHtp.dll"          # Windows on Snapdragon (ARM64 Python)
+qnn_htp_performance_mode = "burst"
+# Set true to make session creation FAIL if any node would fall back to CPU.
+# This is how you prove full-NPU execution on device.
+disable_cpu_ep_fallback = false
+# Cache compiled QNN context binaries next to the model (<model>_ctx.onnx).
+qnn_context_cache = true
+intra_op_threads = 0                     # 0 = ORT default
+
+[models]
+clip_image = "models/onnx/clip_image.onnx"
+clip_text = "models/onnx/clip_text.onnx"
+yolo = "models/onnx/yolov8n.onnx"
+
+[index]
+db_path = "data/index/footagefind.db"
+thumbs_dir = "data/index/thumbs"
+proxy_dir = "data/index/proxies"         # browser-playable WebM copies
+sample_fps = 2.0
+use_crops = true
+thumb_width = 320
+
+[motion]
+enabled = true
+method = "diff"                          # "diff" (frame differencing) or "mog2"
+diff_threshold = 25                      # per-pixel grey-level change
+min_changed_fraction = 0.002             # fraction of pixels that must change
+heartbeat_seconds = 30.0                 # always keep one frame per N s, even if static
+downscale_width = 320
+
+[detect]
+conf_threshold = 0.35
+iou_threshold = 0.5
+min_box_px = 20
+max_crops_per_frame = 12
+# COCO class ids: person, bicycle, car, motorcycle, bus, truck, backpack, umbrella, handbag, suitcase
+classes = [0, 1, 2, 3, 5, 7, 24, 25, 26, 28]
+
+[search]
+top_k = 10
+merge_seconds = 3.0
+
+[verify]
+enabled = false
+base_url = "http://127.0.0.1:8000/v1"    # e.g. `geniex serve` on Snapdragon
+model = "Qwen3-VL-4B-Instruct"
+timeout_s = 60
+weight = 0.5                             # blend: (1-w)*clip + w*vlm_yes
+
+[audit]
+log_path = "logs/audit.jsonl"

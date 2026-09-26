@@ -216,3 +216,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# FootageFind: large / generated local artefacts
+/models/
+/data/
+/logs/
+*.onnx
+*.onnx.data
+*.pt
