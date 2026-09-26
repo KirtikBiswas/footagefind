@@ -71,7 +71,7 @@ flowchart LR
   `QNNExecutionProvider` (Hexagon NPU, `QnnHtp.dll`) first and falls back to CPU. PyTorch is not
   used at runtime, and the CLIP tokenizer is vendored so the device needs no torch.
 * **Crops matter.** In CCTV a person fills about 1% of the frame. Embedding YOLO person/vehicle/bag
-  crops next to the full frame raises Recall@1 from 0.56 to 0.88 on our test queries (table below).
+  crops next to the full frame raises Recall@1 from 0.56 to 0.94 on our test queries (table below).
 * **Motion gate.** Idle footage is skipped before any model runs. A heartbeat still keeps one frame
   every 30 s so parked vehicles and left bags stay searchable.
 * **De-duplication.** Adjacent frames of the same event are merged into one result (greedy temporal
@@ -83,7 +83,41 @@ flowchart LR
 
 ## Results (measured, CPU only)
 
-RESULTS_PLACEHOLDER
+All numbers: `python eval/run_eval.py` on an **Intel Xeon @ 2.80 GHz (4 vCPU, KVM virtual machine), 15.7 GiB RAM,
+Linux x86-64, ONNX Runtime 1.30.0 CPUExecutionProvider**, 2026-09-26. 16 queries with hand-labelled ground truth over
+`vtest.avi` (79.5 s) + `indoor_desk.avi` (6.6 s). Full tables, per-query ranks and method:
+**[results/RESULTS.md](results/RESULTS.md)** (raw: `results/cpu_eval.json`).
+
+| Configuration (sampling 2 fps, merge 3 s) | Recall@1 | Recall@5 | Recall@10 | MRR | Index time, 86 s of video |
+|---|---|---|---|---|---|
+| **Frames + YOLO crops, FP32 (default)** | **0.94** | 0.94 | 1.00 | 0.95 | 76.9 s |
+| Full frames only, FP32 | 0.56 | 0.88 | 0.94 | 0.64 | 10.3 s |
+| Frames + crops, CLIP INT8 w8a8 (ORT static QDQ) | 0.75 | 0.94 | 1.00 | 0.84 | 56.7 s |
+| Frames + crops, CLIP w8a16 (NPU-target numerics, run on CPU) | 0.94 | 1.00 | 1.00 | 0.95 | 391.5 s* |
+| Frames + crops, CLIP **and** YOLO w8a16 (full NPU-target numerics) | 0.88 | 0.94 | 1.00 | 0.91 | 403.3 s* |
+
+\* w8a16 QDQ is emulated on x86 and is ~7x slower than FP32 there; it is the format the Hexagon NPU executes
+natively. These rows preview **accuracy** on the NPU, not speed. Approximate random-ranking Recall@1: 0.18.
+
+* **Crops are the biggest win**: event-level Recall@1 0.46 -> 1.00.
+* **w8a16 keeps accuracy, w8a8 does not**: mean cosine to FP32 embeddings is 0.999 (w8a16) vs 0.85 image /
+  0.79 text (w8a8).
+* **Motion gate** (synthetic clip: vtest padded with 2 x 60 s of frozen, noisy frames): skipped 236 of 413 sampled
+  frames, cut indexing from 180.9 s to 80.0 s, and Recall@1 went *up* (0.81 -> 0.88) because idle frames no longer
+  compete in the ranking. On the real vtest clip it skips nothing, because people are moving in every frame.
+* **Per-model CPU latency** (batch 1, mean / p95): CLIP image 40.7 / 49.6 ms, CLIP text 37.0 / 45.1 ms,
+  YOLOv8n 44.4 / 52.2 ms. End-to-end query: 103 ms mean.
+
+### Snapdragon X (AI Hub / on-device) - to be measured
+
+| Model | Precision | Snapdragon X Elite CRD latency | Snapdragon X Plus 8-Core CRD latency | Compute unit | Peak memory |
+|---|---|---|---|---|---|
+| CLIP ViT-B/32 image | w8a16 | | | | |
+| CLIP ViT-B/32 text | w8a16 | | | | |
+| YOLOv8n | w8a16 | | | | |
+
+Nothing here has been measured. Run `scripts/aihub_compile_profile.py` (needs an AI Hub token) and
+`eval/run_eval.py --config configs/snapdragon.toml` on a device to fill it.
 
 ## Setup
 
@@ -100,7 +134,7 @@ python scripts/quantize_onnx.py          # optional: *.int8.onnx (CPU) and *.w8a
 python -m footagefind index data/videos/vtest.avi data/videos/indoor_desk.avi
 python -m footagefind search "a woman in a red jacket" -k 5
 python -m footagefind.app                # http://127.0.0.1:7860
-python -m pytest -q                      # 40 tests
+python -m pytest -q                      # 41 tests
 python eval/run_eval.py                  # regenerates results/cpu_eval.json + results/RESULTS.md
 ```
 

@@ -53,20 +53,31 @@ similarity of quantized vs FP32 CLIP embeddings.
 
 | Encoder | INT8 w8a8 (MatMul/Gemm/Conv only) | w8a16 (ORT QNN recipe, all ops) |
 |---|---|---|
-| See `results/RESULTS.md` -> "Quantized CLIP embedding fidelity" for the current numbers. | | |
+| CLIP image | 0.846 | 0.999 |
+| CLIP text | 0.789 | 0.999 |
+
+Retrieval on the 16 eval queries (CPU, same index settings): FP32 R@1 0.94, w8a8 0.75, w8a16 0.94, and
+all-w8a16 including YOLO 0.88. YOLOv8n w8a16 matched 301/301 FP32 detections at IoU >= 0.5 on 40 frames.
+Source: `results/RESULTS.md`.
 
 In the calibration sweep on the image encoder, 8-bit activations lost a lot of
 fidelity (cosine about 0.76-0.85 depending on the calibration method), while 16-bit
 activations kept about 0.998. Transformers have outlier activations that 8 bits
 cannot cover. The retrieval accuracy of each variant is in the RESULTS table.
 
-### A pitfall that was found and fixed
+### Two pitfalls that were found and fixed
 
 open_clip's text encoder uses a causal attention mask of `0 / -inf`. `-inf`
 breaks MinMax calibration, and the first w8a16 text encoder came out with a
 cosine of 0.37 to FP32 (useless). `scripts/export_onnx.py::finite_attention_masks`
 rewrites the mask to `0 / -100` (identical after softmax; FP32 max-abs-diff to
 PyTorch stays ~2e-7). After that, w8a16 text cosine is ~0.9995.
+
+The QNN QDQ config also quantizes YOLOv8's `Resize` **scales** input. `[1,1,2,2]` in UINT16
+dequantizes to `0.99998`, and ORT computes `floor(256 x 0.99998) = 255` channels, so the neck silently lost a
+feature map and w8a16 YOLO kept only 12% of FP32 detections. `scripts/quantize_onnx.py::resize_scales_to_sizes`
+rewrites Resize to use integer `sizes` before quantizing (regression test in `tests/test_runtime.py`). If you
+use AI Hub's quantizer instead, check the same thing.
 
 ### Known risks on device (not yet checked)
 
