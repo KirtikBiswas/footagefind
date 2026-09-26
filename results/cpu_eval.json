@@ -1,0 +1,3212 @@
+{
+  "date": "2026-09-26",
+  "hardware": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+    "logical_cores": 4,
+    "ram_gib": 15.7,
+    "machine": "x86_64",
+    "os": "Linux 6.18.44-fc-v37",
+    "python": "3.11.15",
+    "onnxruntime": "1.30.0",
+    "ort_available_providers": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "virtualized": "yes (virtual machine)"
+  },
+  "hardware_label": "Intel(R) Xeon(R) Processor @ 2.80GHz, 4 logical cores, 15.7 GiB RAM, Linux 6.18.44-fc-v37 (x86_64), onnxruntime 1.30.0 CPUExecutionProvider",
+  "config": null,
+  "n_queries": 16,
+  "tolerance_s": 0.25,
+  "sample_fps": 2.0,
+  "merge_seconds": 3.0,
+  "retrieval": [
+    {
+      "key": "fp32_crops_motion",
+      "label": "Frames + YOLO crops, motion gate on (default)",
+      "precision": "FP32",
+      "use_crops": true,
+      "motion": true,
+      "index_stats": [
+        {
+          "video_id": "f0cccad023cc",
+          "video": "vtest.avi",
+          "duration_s": 79.5,
+          "sample_fps": 2.0,
+          "use_crops": true,
+          "motion": {
+            "frames_seen": 159,
+            "frames_kept": 159,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "diff",
+          "frames_embedded": 159,
+          "crops_embedded": 1181,
+          "items": 1340,
+          "index_wall_s": 73.64,
+          "sampled_frames_per_s": 2.16,
+          "realtime_factor": 1.08,
+          "timings_s": {
+            "decode_gate_s": 2.56,
+            "detect_s": 13.68,
+            "embed_s": 57.9,
+            "write_s": 1.06
+          },
+          "providers": {
+            "clip_image": "CPUExecutionProvider",
+            "yolo": "CPUExecutionProvider"
+          }
+        },
+        {
+          "video_id": "89d8ce33e331",
+          "video": "indoor_desk.avi",
+          "duration_s": 6.6,
+          "sample_fps": 2.0,
+          "use_crops": true,
+          "motion": {
+            "frames_seen": 14,
+            "frames_kept": 14,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "diff",
+          "frames_embedded": 14,
+          "crops_embedded": 14,
+          "items": 28,
+          "index_wall_s": 3.28,
+          "sampled_frames_per_s": 4.27,
+          "realtime_factor": 2.01,
+          "timings_s": {
+            "decode_gate_s": 1.1,
+            "detect_s": 1.33,
+            "embed_s": 1.8,
+            "write_s": 0.11
+          },
+          "providers": {
+            "clip_image": "CPUExecutionProvider",
+            "yolo": "CPUExecutionProvider"
+          }
+        }
+      ],
+      "metrics": {
+        "all": {
+          "recall@1": 0.9375,
+          "recall@5": 0.9375,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 0.9453,
+          "not_found": 0,
+          "n": 16
+        },
+        "event": {
+          "recall@1": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 1.0,
+          "not_found": 0,
+          "n": 13
+        },
+        "scene": {
+          "recall@1": 0.6667,
+          "recall@5": 0.6667,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 0.7083,
+          "not_found": 0,
+          "n": 3
+        },
+        "random_baseline_recall@1_approx": 0.1788,
+        "per_query": [
+          {
+            "id": "q01",
+            "query": "a man and a woman walking together on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 55.0,
+              "score": 0.3435,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0925,
+            "query_ms": 635.3
+          },
+          {
+            "id": "q02",
+            "query": "a woman with curly blonde hair in a long black coat walking alone on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 68.5,
+              "score": 0.4339,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.1965,
+            "query_ms": 104.1
+          },
+          {
+            "id": "q03",
+            "query": "a woman in a red jacket",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 78.5,
+              "score": 0.3565,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.3988,
+            "query_ms": 99.4
+          },
+          {
+            "id": "q04",
+            "query": "a person in a white hooded jacket",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 12.5,
+              "score": 0.3412,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.1214,
+            "query_ms": 105.0
+          },
+          {
+            "id": "q05",
+            "query": "a man in a blue jacket and grey trousers",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 66.5,
+              "score": 0.3398,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.104,
+            "query_ms": 95.7
+          },
+          {
+            "id": "q06",
+            "query": "a group of three people standing and talking next to a signpost",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 4.0,
+              "score": 0.3217,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.0751,
+            "query_ms": 90.4
+          },
+          {
+            "id": "q07",
+            "query": "a person right next to the camera tripod on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 60.0,
+              "score": 0.2995,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0462,
+            "query_ms": 79.8
+          },
+          {
+            "id": "q08",
+            "query": "people walking on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 55.0,
+              "score": 0.332,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.2832,
+            "query_ms": 99.8
+          },
+          {
+            "id": "q09",
+            "query": "a man in a red jacket walking on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 59.0,
+              "score": 0.3389,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.1272,
+            "query_ms": 79.8
+          },
+          {
+            "id": "q10",
+            "query": "a man in a red jacket walking side by side with a blonde woman on the road",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 9.5,
+              "score": 0.3742,
+              "via": "crop"
+            },
+            "n_results": 23,
+            "gt_coverage": 0.2659,
+            "query_ms": 88.0
+          },
+          {
+            "id": "q11",
+            "query": "a man holding a colourful ball",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 4.52,
+              "score": 0.3056,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0289,
+            "query_ms": 99.7
+          },
+          {
+            "id": "q12",
+            "query": "a man with his hand on top of a toy clown",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 2.0,
+              "score": 0.2977,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0231,
+            "query_ms": 103.8
+          },
+          {
+            "id": "q13",
+            "query": "a man reaching across the table to pick up a ball",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 4.52,
+              "score": 0.3401,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0173,
+            "query_ms": 100.2
+          },
+          {
+            "id": "q14",
+            "query": "colourful children's toys on a wooden table",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 0.0,
+              "score": 0.2272,
+              "via": "frame"
+            },
+            "n_results": 22,
+            "gt_coverage": 0.0809,
+            "query_ms": 87.8
+          },
+          {
+            "id": "q15",
+            "query": "a white van parked in front of a brick building",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 73.5,
+              "score": 0.3352,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.9191,
+            "query_ms": 115.6
+          },
+          {
+            "id": "q16",
+            "query": "a man in a striped short-sleeved shirt",
+            "category": "scene",
+            "rank": 8,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 15.0,
+              "score": 0.2218,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0809,
+            "query_ms": 99.9
+          }
+        ]
+      }
+    },
+    {
+      "key": "fp32_crops_nomotion",
+      "label": "Frames + YOLO crops, motion gate off",
+      "precision": "FP32",
+      "use_crops": true,
+      "motion": false,
+      "index_stats": [
+        {
+          "video_id": "f0cccad023cc",
+          "video": "vtest.avi",
+          "duration_s": 79.5,
+          "sample_fps": 2.0,
+          "use_crops": true,
+          "motion": {
+            "frames_seen": 159,
+            "frames_kept": 159,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "off",
+          "frames_embedded": 159,
+          "crops_embedded": 1181,
+          "items": 1340,
+          "index_wall_s": 73.34,
+          "sampled_frames_per_s": 2.17,
+          "realtime_factor": 1.08,
+          "timings_s": {
+            "decode_gate_s": 2.63,
+            "detect_s": 13.78,
+            "embed_s": 58.54,
+            "write_s": 0.98
+          },
+          "providers": {
+            "clip_image": "CPUExecutionProvider",
+            "yolo": "CPUExecutionProvider",
+            "clip_text": "CPUExecutionProvider"
+          }
+        },
+        {
+          "video_id": "89d8ce33e331",
+          "video": "indoor_desk.avi",
+          "duration_s": 6.6,
+          "sample_fps": 2.0,
+          "use_crops": true,
+          "motion": {
+            "frames_seen": 14,
+            "frames_kept": 14,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "off",
+          "frames_embedded": 14,
+          "crops_embedded": 14,
+          "items": 28,
+          "index_wall_s": 3.27,
+          "sampled_frames_per_s": 4.28,
+          "realtime_factor": 2.02,
+          "timings_s": {
+            "decode_gate_s": 1.01,
+            "detect_s": 1.27,
+            "embed_s": 1.86,
+            "write_s": 0.09
+          },
+          "providers": {
+            "clip_image": "CPUExecutionProvider",
+            "yolo": "CPUExecutionProvider",
+            "clip_text": "CPUExecutionProvider"
+          }
+        }
+      ],
+      "metrics": {
+        "all": {
+          "recall@1": 0.9375,
+          "recall@5": 0.9375,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 0.9453,
+          "not_found": 0,
+          "n": 16
+        },
+        "event": {
+          "recall@1": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 1.0,
+          "not_found": 0,
+          "n": 13
+        },
+        "scene": {
+          "recall@1": 0.6667,
+          "recall@5": 0.6667,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 0.7083,
+          "not_found": 0,
+          "n": 3
+        },
+        "random_baseline_recall@1_approx": 0.1788,
+        "per_query": [
+          {
+            "id": "q01",
+            "query": "a man and a woman walking together on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 55.0,
+              "score": 0.3435,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0925,
+            "query_ms": 76.3
+          },
+          {
+            "id": "q02",
+            "query": "a woman with curly blonde hair in a long black coat walking alone on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 68.5,
+              "score": 0.4339,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.1965,
+            "query_ms": 157.6
+          },
+          {
+            "id": "q03",
+            "query": "a woman in a red jacket",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 78.5,
+              "score": 0.3565,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.3988,
+            "query_ms": 118.1
+          },
+          {
+            "id": "q04",
+            "query": "a person in a white hooded jacket",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 12.5,
+              "score": 0.3412,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.1214,
+            "query_ms": 111.7
+          },
+          {
+            "id": "q05",
+            "query": "a man in a blue jacket and grey trousers",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 66.5,
+              "score": 0.3398,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.104,
+            "query_ms": 115.9
+          },
+          {
+            "id": "q06",
+            "query": "a group of three people standing and talking next to a signpost",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 4.0,
+              "score": 0.3217,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.0751,
+            "query_ms": 115.9
+          },
+          {
+            "id": "q07",
+            "query": "a person right next to the camera tripod on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 60.0,
+              "score": 0.2995,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0462,
+            "query_ms": 123.8
+          },
+          {
+            "id": "q08",
+            "query": "people walking on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 55.0,
+              "score": 0.332,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.2832,
+            "query_ms": 110.8
+          },
+          {
+            "id": "q09",
+            "query": "a man in a red jacket walking on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 59.0,
+              "score": 0.3389,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.1272,
+            "query_ms": 104.9
+          },
+          {
+            "id": "q10",
+            "query": "a man in a red jacket walking side by side with a blonde woman on the road",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 9.5,
+              "score": 0.3742,
+              "via": "crop"
+            },
+            "n_results": 23,
+            "gt_coverage": 0.2659,
+            "query_ms": 111.9
+          },
+          {
+            "id": "q11",
+            "query": "a man holding a colourful ball",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 4.52,
+              "score": 0.3056,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0289,
+            "query_ms": 115.8
+          },
+          {
+            "id": "q12",
+            "query": "a man with his hand on top of a toy clown",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 2.0,
+              "score": 0.2977,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0231,
+            "query_ms": 115.7
+          },
+          {
+            "id": "q13",
+            "query": "a man reaching across the table to pick up a ball",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 4.52,
+              "score": 0.3401,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0173,
+            "query_ms": 120.0
+          },
+          {
+            "id": "q14",
+            "query": "colourful children's toys on a wooden table",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 0.0,
+              "score": 0.2272,
+              "via": "frame"
+            },
+            "n_results": 22,
+            "gt_coverage": 0.0809,
+            "query_ms": 100.8
+          },
+          {
+            "id": "q15",
+            "query": "a white van parked in front of a brick building",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 73.5,
+              "score": 0.3352,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.9191,
+            "query_ms": 118.8
+          },
+          {
+            "id": "q16",
+            "query": "a man in a striped short-sleeved shirt",
+            "category": "scene",
+            "rank": 8,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 15.0,
+              "score": 0.2218,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0809,
+            "query_ms": 116.4
+          }
+        ]
+      }
+    },
+    {
+      "key": "fp32_frames_motion",
+      "label": "Full frames only, motion gate on",
+      "precision": "FP32",
+      "use_crops": false,
+      "motion": true,
+      "index_stats": [
+        {
+          "video_id": "f0cccad023cc",
+          "video": "vtest.avi",
+          "duration_s": 79.5,
+          "sample_fps": 2.0,
+          "use_crops": false,
+          "motion": {
+            "frames_seen": 159,
+            "frames_kept": 159,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "diff",
+          "frames_embedded": 159,
+          "crops_embedded": 0,
+          "items": 159,
+          "index_wall_s": 8.98,
+          "sampled_frames_per_s": 17.7,
+          "realtime_factor": 8.85,
+          "timings_s": {
+            "decode_gate_s": 2.32,
+            "detect_s": 0.0,
+            "embed_s": 8.05,
+            "write_s": 0.9
+          },
+          "providers": {
+            "clip_image": "CPUExecutionProvider",
+            "yolo": "CPUExecutionProvider",
+            "clip_text": "CPUExecutionProvider"
+          }
+        },
+        {
+          "video_id": "89d8ce33e331",
+          "video": "indoor_desk.avi",
+          "duration_s": 6.6,
+          "sample_fps": 2.0,
+          "use_crops": false,
+          "motion": {
+            "frames_seen": 14,
+            "frames_kept": 14,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "diff",
+          "frames_embedded": 14,
+          "crops_embedded": 0,
+          "items": 14,
+          "index_wall_s": 1.33,
+          "sampled_frames_per_s": 10.56,
+          "realtime_factor": 4.98,
+          "timings_s": {
+            "decode_gate_s": 1.06,
+            "detect_s": 0.0,
+            "embed_s": 1.19,
+            "write_s": 0.09
+          },
+          "providers": {
+            "clip_image": "CPUExecutionProvider",
+            "yolo": "CPUExecutionProvider",
+            "clip_text": "CPUExecutionProvider"
+          }
+        }
+      ],
+      "metrics": {
+        "all": {
+          "recall@1": 0.5625,
+          "recall@5": 0.875,
+          "recall@10": 0.9375,
+          "median_rank": 1.0,
+          "mrr": 0.6406,
+          "not_found": 1,
+          "n": 16
+        },
+        "event": {
+          "recall@1": 0.4615,
+          "recall@5": 0.8462,
+          "recall@10": 0.9231,
+          "median_rank": 4.0,
+          "mrr": 0.5577,
+          "not_found": 1,
+          "n": 13
+        },
+        "scene": {
+          "recall@1": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 1.0,
+          "not_found": 0,
+          "n": 3
+        },
+        "random_baseline_recall@1_approx": 0.1788,
+        "per_query": [
+          {
+            "id": "q01",
+            "query": "a man and a woman walking together on the grass",
+            "category": "event",
+            "rank": 5,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 35.0,
+              "score": 0.2024,
+              "via": "frame"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.0925,
+            "query_ms": 70.7
+          },
+          {
+            "id": "q02",
+            "query": "a woman with curly blonde hair in a long black coat walking alone on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 65.5,
+              "score": 0.2081,
+              "via": "frame"
+            },
+            "n_results": 22,
+            "gt_coverage": 0.1965,
+            "query_ms": 39.4
+          },
+          {
+            "id": "q03",
+            "query": "a woman in a red jacket",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 53.0,
+              "score": 0.1315,
+              "via": "frame"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.3988,
+            "query_ms": 40.4
+          },
+          {
+            "id": "q04",
+            "query": "a person in a white hooded jacket",
+            "category": "event",
+            "rank": 10,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 65.5,
+              "score": 0.1623,
+              "via": "frame"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.1214,
+            "query_ms": 39.2
+          },
+          {
+            "id": "q05",
+            "query": "a man in a blue jacket and grey trousers",
+            "category": "event",
+            "rank": 5,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 63.5,
+              "score": 0.1696,
+              "via": "frame"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.104,
+            "query_ms": 39.6
+          },
+          {
+            "id": "q06",
+            "query": "a group of three people standing and talking next to a signpost",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 3.5,
+              "score": 0.2097,
+              "via": "frame"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0751,
+            "query_ms": 40.3
+          },
+          {
+            "id": "q07",
+            "query": "a person right next to the camera tripod on the grass",
+            "category": "event",
+            "rank": 4,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 2.5,
+              "score": 0.2733,
+              "via": "frame"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0462,
+            "query_ms": 41.4
+          },
+          {
+            "id": "q08",
+            "query": "people walking on the grass",
+            "category": "event",
+            "rank": 4,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 7.0,
+              "score": 0.2817,
+              "via": "frame"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.2832,
+            "query_ms": 39.8
+          },
+          {
+            "id": "q09",
+            "query": "a man in a red jacket walking on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 53.0,
+              "score": 0.2077,
+              "via": "frame"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.1272,
+            "query_ms": 37.9
+          },
+          {
+            "id": "q10",
+            "query": "a man in a red jacket walking side by side with a blonde woman on the road",
+            "category": "event",
+            "rank": 4,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 47.0,
+              "score": 0.1951,
+              "via": "frame"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.2659,
+            "query_ms": 37.2
+          },
+          {
+            "id": "q11",
+            "query": "a man holding a colourful ball",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 4.52,
+              "score": 0.2702,
+              "via": "frame"
+            },
+            "n_results": 18,
+            "gt_coverage": 0.0289,
+            "query_ms": 38.4
+          },
+          {
+            "id": "q12",
+            "query": "a man with his hand on top of a toy clown",
+            "category": "event",
+            "rank": null,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 0.52,
+              "score": 0.2762,
+              "via": "frame"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0231,
+            "query_ms": 37.4
+          },
+          {
+            "id": "q13",
+            "query": "a man reaching across the table to pick up a ball",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 4.52,
+              "score": 0.3023,
+              "via": "frame"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0173,
+            "query_ms": 38.5
+          },
+          {
+            "id": "q14",
+            "query": "colourful children's toys on a wooden table",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 0.0,
+              "score": 0.2272,
+              "via": "frame"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.0809,
+            "query_ms": 36.7
+          },
+          {
+            "id": "q15",
+            "query": "a white van parked in front of a brick building",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 49.5,
+              "score": 0.1358,
+              "via": "frame"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.9191,
+            "query_ms": 37.3
+          },
+          {
+            "id": "q16",
+            "query": "a man in a striped short-sleeved shirt",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 1.52,
+              "score": 0.1514,
+              "via": "frame"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0809,
+            "query_ms": 37.7
+          }
+        ]
+      }
+    },
+    {
+      "key": "fp32_frames_nomotion",
+      "label": "Full frames only, motion gate off",
+      "precision": "FP32",
+      "use_crops": false,
+      "motion": false,
+      "index_stats": [
+        {
+          "video_id": "f0cccad023cc",
+          "video": "vtest.avi",
+          "duration_s": 79.5,
+          "sample_fps": 2.0,
+          "use_crops": false,
+          "motion": {
+            "frames_seen": 159,
+            "frames_kept": 159,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "off",
+          "frames_embedded": 159,
+          "crops_embedded": 0,
+          "items": 159,
+          "index_wall_s": 9.62,
+          "sampled_frames_per_s": 16.52,
+          "realtime_factor": 8.26,
+          "timings_s": {
+            "decode_gate_s": 2.27,
+            "detect_s": 0.0,
+            "embed_s": 8.68,
+            "write_s": 0.91
+          },
+          "providers": {
+            "clip_image": "CPUExecutionProvider",
+            "yolo": "CPUExecutionProvider",
+            "clip_text": "CPUExecutionProvider"
+          }
+        },
+        {
+          "video_id": "89d8ce33e331",
+          "video": "indoor_desk.avi",
+          "duration_s": 6.6,
+          "sample_fps": 2.0,
+          "use_crops": false,
+          "motion": {
+            "frames_seen": 14,
+            "frames_kept": 14,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "off",
+          "frames_embedded": 14,
+          "crops_embedded": 0,
+          "items": 14,
+          "index_wall_s": 1.32,
+          "sampled_frames_per_s": 10.58,
+          "realtime_factor": 4.99,
+          "timings_s": {
+            "decode_gate_s": 1.06,
+            "detect_s": 0.0,
+            "embed_s": 1.21,
+            "write_s": 0.08
+          },
+          "providers": {
+            "clip_image": "CPUExecutionProvider",
+            "yolo": "CPUExecutionProvider",
+            "clip_text": "CPUExecutionProvider"
+          }
+        }
+      ],
+      "metrics": {
+        "all": {
+          "recall@1": 0.5625,
+          "recall@5": 0.875,
+          "recall@10": 0.9375,
+          "median_rank": 1.0,
+          "mrr": 0.6406,
+          "not_found": 1,
+          "n": 16
+        },
+        "event": {
+          "recall@1": 0.4615,
+          "recall@5": 0.8462,
+          "recall@10": 0.9231,
+          "median_rank": 4.0,
+          "mrr": 0.5577,
+          "not_found": 1,
+          "n": 13
+        },
+        "scene": {
+          "recall@1": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 1.0,
+          "not_found": 0,
+          "n": 3
+        },
+        "random_baseline_recall@1_approx": 0.1788,
+        "per_query": [
+          {
+            "id": "q01",
+            "query": "a man and a woman walking together on the grass",
+            "category": "event",
+            "rank": 5,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 35.0,
+              "score": 0.2024,
+              "via": "frame"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.0925,
+            "query_ms": 85.9
+          },
+          {
+            "id": "q02",
+            "query": "a woman with curly blonde hair in a long black coat walking alone on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 65.5,
+              "score": 0.2081,
+              "via": "frame"
+            },
+            "n_results": 22,
+            "gt_coverage": 0.1965,
+            "query_ms": 41.0
+          },
+          {
+            "id": "q03",
+            "query": "a woman in a red jacket",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 53.0,
+              "score": 0.1315,
+              "via": "frame"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.3988,
+            "query_ms": 38.8
+          },
+          {
+            "id": "q04",
+            "query": "a person in a white hooded jacket",
+            "category": "event",
+            "rank": 10,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 65.5,
+              "score": 0.1623,
+              "via": "frame"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.1214,
+            "query_ms": 36.6
+          },
+          {
+            "id": "q05",
+            "query": "a man in a blue jacket and grey trousers",
+            "category": "event",
+            "rank": 5,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 63.5,
+              "score": 0.1696,
+              "via": "frame"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.104,
+            "query_ms": 37.8
+          },
+          {
+            "id": "q06",
+            "query": "a group of three people standing and talking next to a signpost",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 3.5,
+              "score": 0.2097,
+              "via": "frame"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0751,
+            "query_ms": 39.2
+          },
+          {
+            "id": "q07",
+            "query": "a person right next to the camera tripod on the grass",
+            "category": "event",
+            "rank": 4,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 2.5,
+              "score": 0.2733,
+              "via": "frame"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0462,
+            "query_ms": 37.5
+          },
+          {
+            "id": "q08",
+            "query": "people walking on the grass",
+            "category": "event",
+            "rank": 4,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 7.0,
+              "score": 0.2817,
+              "via": "frame"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.2832,
+            "query_ms": 38.3
+          },
+          {
+            "id": "q09",
+            "query": "a man in a red jacket walking on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 53.0,
+              "score": 0.2077,
+              "via": "frame"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.1272,
+            "query_ms": 37.3
+          },
+          {
+            "id": "q10",
+            "query": "a man in a red jacket walking side by side with a blonde woman on the road",
+            "category": "event",
+            "rank": 4,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 47.0,
+              "score": 0.1951,
+              "via": "frame"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.2659,
+            "query_ms": 38.1
+          },
+          {
+            "id": "q11",
+            "query": "a man holding a colourful ball",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 4.52,
+              "score": 0.2702,
+              "via": "frame"
+            },
+            "n_results": 18,
+            "gt_coverage": 0.0289,
+            "query_ms": 36.8
+          },
+          {
+            "id": "q12",
+            "query": "a man with his hand on top of a toy clown",
+            "category": "event",
+            "rank": null,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 0.52,
+              "score": 0.2762,
+              "via": "frame"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0231,
+            "query_ms": 37.3
+          },
+          {
+            "id": "q13",
+            "query": "a man reaching across the table to pick up a ball",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 4.52,
+              "score": 0.3023,
+              "via": "frame"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0173,
+            "query_ms": 37.6
+          },
+          {
+            "id": "q14",
+            "query": "colourful children's toys on a wooden table",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 0.0,
+              "score": 0.2272,
+              "via": "frame"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.0809,
+            "query_ms": 36.5
+          },
+          {
+            "id": "q15",
+            "query": "a white van parked in front of a brick building",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 49.5,
+              "score": 0.1358,
+              "via": "frame"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.9191,
+            "query_ms": 40.3
+          },
+          {
+            "id": "q16",
+            "query": "a man in a striped short-sleeved shirt",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 1.52,
+              "score": 0.1514,
+              "via": "frame"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0809,
+            "query_ms": 39.3
+          }
+        ]
+      }
+    },
+    {
+      "key": "int8_crops_motion",
+      "label": "Frames + crops, motion on, CLIP INT8 w8a8",
+      "precision": "INT8 w8a8",
+      "use_crops": true,
+      "motion": true,
+      "index_stats": [
+        {
+          "video_id": "f0cccad023cc",
+          "video": "vtest.avi",
+          "duration_s": 79.5,
+          "sample_fps": 2.0,
+          "use_crops": true,
+          "motion": {
+            "frames_seen": 159,
+            "frames_kept": 159,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "diff",
+          "frames_embedded": 159,
+          "crops_embedded": 1181,
+          "items": 1340,
+          "index_wall_s": 53.85,
+          "sampled_frames_per_s": 2.95,
+          "realtime_factor": 1.48,
+          "timings_s": {
+            "decode_gate_s": 2.66,
+            "detect_s": 13.66,
+            "embed_s": 38.84,
+            "write_s": 1.01
+          },
+          "providers": {
+            "yolo": "CPUExecutionProvider",
+            "clip_image": "CPUExecutionProvider"
+          }
+        },
+        {
+          "video_id": "89d8ce33e331",
+          "video": "indoor_desk.avi",
+          "duration_s": 6.6,
+          "sample_fps": 2.0,
+          "use_crops": true,
+          "motion": {
+            "frames_seen": 14,
+            "frames_kept": 14,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "diff",
+          "frames_embedded": 14,
+          "crops_embedded": 14,
+          "items": 28,
+          "index_wall_s": 2.87,
+          "sampled_frames_per_s": 4.87,
+          "realtime_factor": 2.3,
+          "timings_s": {
+            "decode_gate_s": 1.22,
+            "detect_s": 1.33,
+            "embed_s": 1.38,
+            "write_s": 0.12
+          },
+          "providers": {
+            "yolo": "CPUExecutionProvider",
+            "clip_image": "CPUExecutionProvider"
+          }
+        }
+      ],
+      "metrics": {
+        "all": {
+          "recall@1": 0.75,
+          "recall@5": 0.9375,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 0.8371,
+          "not_found": 0,
+          "n": 16
+        },
+        "event": {
+          "recall@1": 0.7692,
+          "recall@5": 0.9231,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 0.8571,
+          "not_found": 0,
+          "n": 13
+        },
+        "scene": {
+          "recall@1": 0.6667,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 0.75,
+          "not_found": 0,
+          "n": 3
+        },
+        "random_baseline_recall@1_approx": 0.1788,
+        "per_query": [
+          {
+            "id": "q01",
+            "query": "a man and a woman walking together on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 54.0,
+              "score": 0.3125,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.0925,
+            "query_ms": 587.8
+          },
+          {
+            "id": "q02",
+            "query": "a woman with curly blonde hair in a long black coat walking alone on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 68.5,
+              "score": 0.3163,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.1965,
+            "query_ms": 92.2
+          },
+          {
+            "id": "q03",
+            "query": "a woman in a red jacket",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 76.0,
+              "score": 0.3098,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.3988,
+            "query_ms": 74.4
+          },
+          {
+            "id": "q04",
+            "query": "a person in a white hooded jacket",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 12.5,
+              "score": 0.2663,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.1214,
+            "query_ms": 67.7
+          },
+          {
+            "id": "q05",
+            "query": "a man in a blue jacket and grey trousers",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 66.0,
+              "score": 0.3038,
+              "via": "crop"
+            },
+            "n_results": 18,
+            "gt_coverage": 0.104,
+            "query_ms": 64.0
+          },
+          {
+            "id": "q06",
+            "query": "a group of three people standing and talking next to a signpost",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 6.5,
+              "score": 0.282,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0751,
+            "query_ms": 63.7
+          },
+          {
+            "id": "q07",
+            "query": "a person right next to the camera tripod on the grass",
+            "category": "event",
+            "rank": 2,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 2.5,
+              "score": 0.2725,
+              "via": "frame"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0462,
+            "query_ms": 71.8
+          },
+          {
+            "id": "q08",
+            "query": "people walking on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 55.5,
+              "score": 0.3195,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.2832,
+            "query_ms": 72.1
+          },
+          {
+            "id": "q09",
+            "query": "a man in a red jacket walking on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 59.5,
+              "score": 0.3214,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.1272,
+            "query_ms": 63.6
+          },
+          {
+            "id": "q10",
+            "query": "a man in a red jacket walking side by side with a blonde woman on the road",
+            "category": "event",
+            "rank": 2,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 75.0,
+              "score": 0.3013,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.2659,
+            "query_ms": 72.0
+          },
+          {
+            "id": "q11",
+            "query": "a man holding a colourful ball",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 6.0,
+              "score": 0.2858,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.0289,
+            "query_ms": 101.7
+          },
+          {
+            "id": "q12",
+            "query": "a man with his hand on top of a toy clown",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 2.52,
+              "score": 0.2962,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0231,
+            "query_ms": 98.3
+          },
+          {
+            "id": "q13",
+            "query": "a man reaching across the table to pick up a ball",
+            "category": "event",
+            "rank": 7,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 45.0,
+              "score": 0.2213,
+              "via": "frame"
+            },
+            "n_results": 18,
+            "gt_coverage": 0.0173,
+            "query_ms": 95.5
+          },
+          {
+            "id": "q14",
+            "query": "colourful children's toys on a wooden table",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 1.52,
+              "score": 0.2847,
+              "via": "frame"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0809,
+            "query_ms": 55.7
+          },
+          {
+            "id": "q15",
+            "query": "a white van parked in front of a brick building",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 48.5,
+              "score": 0.3508,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.9191,
+            "query_ms": 47.8
+          },
+          {
+            "id": "q16",
+            "query": "a man in a striped short-sleeved shirt",
+            "category": "scene",
+            "rank": 4,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 71.0,
+              "score": 0.1892,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.0809,
+            "query_ms": 47.8
+          }
+        ]
+      }
+    },
+    {
+      "key": "w8a16_crops_motion",
+      "label": "Frames + crops, motion on, CLIP w8a16 (NPU target numerics)",
+      "precision": "w8a16 (NPU target numerics)",
+      "use_crops": true,
+      "motion": true,
+      "index_stats": [
+        {
+          "video_id": "f0cccad023cc",
+          "video": "vtest.avi",
+          "duration_s": 79.5,
+          "sample_fps": 2.0,
+          "use_crops": true,
+          "motion": {
+            "frames_seen": 159,
+            "frames_kept": 159,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "diff",
+          "frames_embedded": 159,
+          "crops_embedded": 1181,
+          "items": 1340,
+          "index_wall_s": 381.78,
+          "sampled_frames_per_s": 0.42,
+          "realtime_factor": 0.21,
+          "timings_s": {
+            "decode_gate_s": 2.81,
+            "detect_s": 13.53,
+            "embed_s": 367.07,
+            "write_s": 0.89
+          },
+          "providers": {
+            "yolo": "CPUExecutionProvider",
+            "clip_image": "CPUExecutionProvider"
+          }
+        },
+        {
+          "video_id": "89d8ce33e331",
+          "video": "indoor_desk.avi",
+          "duration_s": 6.6,
+          "sample_fps": 2.0,
+          "use_crops": true,
+          "motion": {
+            "frames_seen": 14,
+            "frames_kept": 14,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "diff",
+          "frames_embedded": 14,
+          "crops_embedded": 14,
+          "items": 28,
+          "index_wall_s": 9.71,
+          "sampled_frames_per_s": 1.44,
+          "realtime_factor": 0.68,
+          "timings_s": {
+            "decode_gate_s": 1.12,
+            "detect_s": 1.29,
+            "embed_s": 8.24,
+            "write_s": 0.1
+          },
+          "providers": {
+            "yolo": "CPUExecutionProvider",
+            "clip_image": "CPUExecutionProvider"
+          }
+        }
+      ],
+      "metrics": {
+        "all": {
+          "recall@1": 0.9375,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 0.9531,
+          "not_found": 0,
+          "n": 16
+        },
+        "event": {
+          "recall@1": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 1.0,
+          "not_found": 0,
+          "n": 13
+        },
+        "scene": {
+          "recall@1": 0.6667,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 0.75,
+          "not_found": 0,
+          "n": 3
+        },
+        "random_baseline_recall@1_approx": 0.1788,
+        "per_query": [
+          {
+            "id": "q01",
+            "query": "a man and a woman walking together on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 55.0,
+              "score": 0.3489,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0925,
+            "query_ms": 547.9
+          },
+          {
+            "id": "q02",
+            "query": "a woman with curly blonde hair in a long black coat walking alone on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 68.5,
+              "score": 0.4337,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.1965,
+            "query_ms": 184.1
+          },
+          {
+            "id": "q03",
+            "query": "a woman in a red jacket",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 78.5,
+              "score": 0.3584,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.3988,
+            "query_ms": 175.8
+          },
+          {
+            "id": "q04",
+            "query": "a person in a white hooded jacket",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 12.5,
+              "score": 0.3396,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.1214,
+            "query_ms": 179.3
+          },
+          {
+            "id": "q05",
+            "query": "a man in a blue jacket and grey trousers",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 66.5,
+              "score": 0.338,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.104,
+            "query_ms": 182.6
+          },
+          {
+            "id": "q06",
+            "query": "a group of three people standing and talking next to a signpost",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 8.0,
+              "score": 0.3212,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.0751,
+            "query_ms": 169.7
+          },
+          {
+            "id": "q07",
+            "query": "a person right next to the camera tripod on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 60.0,
+              "score": 0.2969,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0462,
+            "query_ms": 167.7
+          },
+          {
+            "id": "q08",
+            "query": "people walking on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 55.0,
+              "score": 0.334,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.2832,
+            "query_ms": 174.9
+          },
+          {
+            "id": "q09",
+            "query": "a man in a red jacket walking on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 59.0,
+              "score": 0.3428,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.1272,
+            "query_ms": 177.2
+          },
+          {
+            "id": "q10",
+            "query": "a man in a red jacket walking side by side with a blonde woman on the road",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 9.5,
+              "score": 0.3716,
+              "via": "crop"
+            },
+            "n_results": 23,
+            "gt_coverage": 0.2659,
+            "query_ms": 187.9
+          },
+          {
+            "id": "q11",
+            "query": "a man holding a colourful ball",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 4.52,
+              "score": 0.3065,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0289,
+            "query_ms": 185.0
+          },
+          {
+            "id": "q12",
+            "query": "a man with his hand on top of a toy clown",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 2.0,
+              "score": 0.2998,
+              "via": "crop"
+            },
+            "n_results": 22,
+            "gt_coverage": 0.0231,
+            "query_ms": 174.4
+          },
+          {
+            "id": "q13",
+            "query": "a man reaching across the table to pick up a ball",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 4.52,
+              "score": 0.3412,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0173,
+            "query_ms": 177.6
+          },
+          {
+            "id": "q14",
+            "query": "colourful children's toys on a wooden table",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 1.0,
+              "score": 0.2321,
+              "via": "crop"
+            },
+            "n_results": 22,
+            "gt_coverage": 0.0809,
+            "query_ms": 175.5
+          },
+          {
+            "id": "q15",
+            "query": "a white van parked in front of a brick building",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 73.5,
+              "score": 0.3389,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.9191,
+            "query_ms": 178.2
+          },
+          {
+            "id": "q16",
+            "query": "a man in a striped short-sleeved shirt",
+            "category": "scene",
+            "rank": 4,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 15.0,
+              "score": 0.219,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0809,
+            "query_ms": 179.6
+          }
+        ]
+      }
+    },
+    {
+      "key": "w8a16_all_crops_motion",
+      "label": "Frames + crops, motion on, CLIP + YOLO all w8a16 (full NPU numerics)",
+      "precision": "w8a16 (CLIP + YOLO)",
+      "use_crops": true,
+      "motion": true,
+      "index_stats": [
+        {
+          "video_id": "f0cccad023cc",
+          "video": "vtest.avi",
+          "duration_s": 79.5,
+          "sample_fps": 2.0,
+          "use_crops": true,
+          "motion": {
+            "frames_seen": 159,
+            "frames_kept": 159,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "diff",
+          "frames_embedded": 159,
+          "crops_embedded": 1169,
+          "items": 1328,
+          "index_wall_s": 392.76,
+          "sampled_frames_per_s": 0.4,
+          "realtime_factor": 0.2,
+          "timings_s": {
+            "decode_gate_s": 2.67,
+            "detect_s": 24.52,
+            "embed_s": 367.01,
+            "write_s": 0.8
+          },
+          "providers": {
+            "clip_image": "CPUExecutionProvider",
+            "yolo": "CPUExecutionProvider"
+          }
+        },
+        {
+          "video_id": "89d8ce33e331",
+          "video": "indoor_desk.avi",
+          "duration_s": 6.6,
+          "sample_fps": 2.0,
+          "use_crops": true,
+          "motion": {
+            "frames_seen": 14,
+            "frames_kept": 14,
+            "frames_skipped": 0,
+            "kept_by_heartbeat": 0,
+            "skip_ratio": 0.0
+          },
+          "motion_method": "diff",
+          "frames_embedded": 14,
+          "crops_embedded": 14,
+          "items": 28,
+          "index_wall_s": 10.52,
+          "sampled_frames_per_s": 1.33,
+          "realtime_factor": 0.63,
+          "timings_s": {
+            "decode_gate_s": 1.27,
+            "detect_s": 2.21,
+            "embed_s": 8.17,
+            "write_s": 0.1
+          },
+          "providers": {
+            "clip_image": "CPUExecutionProvider",
+            "yolo": "CPUExecutionProvider"
+          }
+        }
+      ],
+      "metrics": {
+        "all": {
+          "recall@1": 0.875,
+          "recall@5": 0.9375,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 0.9132,
+          "not_found": 0,
+          "n": 16
+        },
+        "event": {
+          "recall@1": 0.9231,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 0.9615,
+          "not_found": 0,
+          "n": 13
+        },
+        "scene": {
+          "recall@1": 0.6667,
+          "recall@5": 0.6667,
+          "recall@10": 1.0,
+          "median_rank": 1.0,
+          "mrr": 0.7037,
+          "not_found": 0,
+          "n": 3
+        },
+        "random_baseline_recall@1_approx": 0.1788,
+        "per_query": [
+          {
+            "id": "q01",
+            "query": "a man and a woman walking together on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 55.0,
+              "score": 0.3473,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0925,
+            "query_ms": 463.0
+          },
+          {
+            "id": "q02",
+            "query": "a woman with curly blonde hair in a long black coat walking alone on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 68.5,
+              "score": 0.4337,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.1965,
+            "query_ms": 228.8
+          },
+          {
+            "id": "q03",
+            "query": "a woman in a red jacket",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 78.5,
+              "score": 0.3584,
+              "via": "crop"
+            },
+            "n_results": 22,
+            "gt_coverage": 0.3988,
+            "query_ms": 218.1
+          },
+          {
+            "id": "q04",
+            "query": "a person in a white hooded jacket",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 12.5,
+              "score": 0.3395,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.1214,
+            "query_ms": 232.3
+          },
+          {
+            "id": "q05",
+            "query": "a man in a blue jacket and grey trousers",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 66.5,
+              "score": 0.344,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.104,
+            "query_ms": 231.1
+          },
+          {
+            "id": "q06",
+            "query": "a group of three people standing and talking next to a signpost",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 4.0,
+              "score": 0.3254,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0751,
+            "query_ms": 201.5
+          },
+          {
+            "id": "q07",
+            "query": "a person right next to the camera tripod on the grass",
+            "category": "event",
+            "rank": 2,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 61.5,
+              "score": 0.2987,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.0462,
+            "query_ms": 177.3
+          },
+          {
+            "id": "q08",
+            "query": "people walking on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 55.0,
+              "score": 0.3319,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.2832,
+            "query_ms": 169.0
+          },
+          {
+            "id": "q09",
+            "query": "a man in a red jacket walking on the grass",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 59.0,
+              "score": 0.3446,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.1272,
+            "query_ms": 195.4
+          },
+          {
+            "id": "q10",
+            "query": "a man in a red jacket walking side by side with a blonde woman on the road",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 10.5,
+              "score": 0.3695,
+              "via": "crop"
+            },
+            "n_results": 20,
+            "gt_coverage": 0.2659,
+            "query_ms": 167.5
+          },
+          {
+            "id": "q11",
+            "query": "a man holding a colourful ball",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 4.52,
+              "score": 0.3053,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0289,
+            "query_ms": 159.3
+          },
+          {
+            "id": "q12",
+            "query": "a man with his hand on top of a toy clown",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 2.52,
+              "score": 0.3082,
+              "via": "crop"
+            },
+            "n_results": 22,
+            "gt_coverage": 0.0231,
+            "query_ms": 166.4
+          },
+          {
+            "id": "q13",
+            "query": "a man reaching across the table to pick up a ball",
+            "category": "event",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 4.52,
+              "score": 0.3494,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0173,
+            "query_ms": 163.4
+          },
+          {
+            "id": "q14",
+            "query": "colourful children's toys on a wooden table",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "indoor_desk.avi",
+              "t": 0.0,
+              "score": 0.2308,
+              "via": "frame"
+            },
+            "n_results": 22,
+            "gt_coverage": 0.0809,
+            "query_ms": 158.5
+          },
+          {
+            "id": "q15",
+            "query": "a white van parked in front of a brick building",
+            "category": "scene",
+            "rank": 1,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 72.0,
+              "score": 0.3386,
+              "via": "crop"
+            },
+            "n_results": 19,
+            "gt_coverage": 0.9191,
+            "query_ms": 168.3
+          },
+          {
+            "id": "q16",
+            "query": "a man in a striped short-sleeved shirt",
+            "category": "scene",
+            "rank": 9,
+            "top1": {
+              "video": "vtest.avi",
+              "t": 15.0,
+              "score": 0.219,
+              "via": "crop"
+            },
+            "n_results": 21,
+            "gt_coverage": 0.0809,
+            "query_ms": 159.5
+          }
+        ]
+      }
+    }
+  ],
+  "query_latency": {
+    "n": 48,
+    "mean_ms": 102.9,
+    "p95_ms": 161.4,
+    "index_items": 1368
+  },
+  "embedding_fidelity": {
+    "clip_image": {
+      "int8": 0.8458,
+      "w8a16": 0.9987
+    },
+    "clip_text": {
+      "int8": 0.7893,
+      "w8a16": 0.9994
+    }
+  },
+  "idle_padded": {
+    "pad_s": 60.0,
+    "noise_sigma": 2.0,
+    "rows": [
+      {
+        "key": "idle_motion",
+        "label": "Idle-padded vtest + indoor, crops, motion gate on",
+        "index_stats": [
+          {
+            "video_id": "37e664eb9f8c",
+            "video": "vtest_idle_padded.avi",
+            "duration_s": 199.5,
+            "sample_fps": 2.0,
+            "use_crops": true,
+            "motion": {
+              "frames_seen": 399,
+              "frames_kept": 163,
+              "frames_skipped": 236,
+              "kept_by_heartbeat": 3,
+              "skip_ratio": 0.5915
+            },
+            "motion_method": "diff",
+            "frames_embedded": 163,
+            "crops_embedded": 1209,
+            "items": 1372,
+            "index_wall_s": 76.69,
+            "sampled_frames_per_s": 5.2,
+            "realtime_factor": 2.6,
+            "timings_s": {
+              "decode_gate_s": 8.6,
+              "detect_s": 14.42,
+              "embed_s": 59.03,
+              "write_s": 1.13
+            },
+            "providers": {
+              "clip_image": "CPUExecutionProvider",
+              "yolo": "CPUExecutionProvider",
+              "clip_text": "CPUExecutionProvider"
+            }
+          },
+          {
+            "video_id": "89d8ce33e331",
+            "video": "indoor_desk.avi",
+            "duration_s": 6.6,
+            "sample_fps": 2.0,
+            "use_crops": true,
+            "motion": {
+              "frames_seen": 14,
+              "frames_kept": 14,
+              "frames_skipped": 0,
+              "kept_by_heartbeat": 0,
+              "skip_ratio": 0.0
+            },
+            "motion_method": "diff",
+            "frames_embedded": 14,
+            "crops_embedded": 14,
+            "items": 28,
+            "index_wall_s": 3.35,
+            "sampled_frames_per_s": 4.18,
+            "realtime_factor": 1.97,
+            "timings_s": {
+              "decode_gate_s": 1.29,
+              "detect_s": 1.28,
+              "embed_s": 1.92,
+              "write_s": 0.1
+            },
+            "providers": {
+              "clip_image": "CPUExecutionProvider",
+              "yolo": "CPUExecutionProvider",
+              "clip_text": "CPUExecutionProvider"
+            }
+          }
+        ],
+        "metrics": {
+          "all": {
+            "recall@1": 0.875,
+            "recall@5": 0.9375,
+            "recall@10": 1.0,
+            "median_rank": 1.0,
+            "mrr": 0.9132,
+            "not_found": 0,
+            "n": 16
+          },
+          "event": {
+            "recall@1": 1.0,
+            "recall@5": 1.0,
+            "recall@10": 1.0,
+            "median_rank": 1.0,
+            "mrr": 1.0,
+            "not_found": 0,
+            "n": 13
+          },
+          "scene": {
+            "recall@1": 0.3333,
+            "recall@5": 0.6667,
+            "recall@10": 1.0,
+            "median_rank": 2.0,
+            "mrr": 0.537,
+            "not_found": 0,
+            "n": 3
+          },
+          "random_baseline_recall@1_approx": 0.1755,
+          "per_query": [
+            {
+              "id": "q01",
+              "query": "a man and a woman walking together on the grass",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 115.0,
+                "score": 0.3395,
+                "via": "crop"
+              },
+              "n_results": 24,
+              "gt_coverage": 0.0904,
+              "query_ms": 58.8
+            },
+            {
+              "id": "q02",
+              "query": "a woman with curly blonde hair in a long black coat walking alone on the grass",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 128.5,
+                "score": 0.4268,
+                "via": "crop"
+              },
+              "n_results": 23,
+              "gt_coverage": 0.1921,
+              "query_ms": 112.1
+            },
+            {
+              "id": "q03",
+              "query": "a woman in a red jacket",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 138.5,
+                "score": 0.3547,
+                "via": "crop"
+              },
+              "n_results": 23,
+              "gt_coverage": 0.3955,
+              "query_ms": 115.4
+            },
+            {
+              "id": "q04",
+              "query": "a person in a white hooded jacket",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 73.5,
+                "score": 0.3374,
+                "via": "crop"
+              },
+              "n_results": 22,
+              "gt_coverage": 0.1186,
+              "query_ms": 115.9
+            },
+            {
+              "id": "q05",
+              "query": "a man in a blue jacket and grey trousers",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 126.5,
+                "score": 0.342,
+                "via": "crop"
+              },
+              "n_results": 25,
+              "gt_coverage": 0.1017,
+              "query_ms": 92.1
+            },
+            {
+              "id": "q06",
+              "query": "a group of three people standing and talking next to a signpost",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 68.0,
+                "score": 0.3334,
+                "via": "crop"
+              },
+              "n_results": 22,
+              "gt_coverage": 0.0734,
+              "query_ms": 95.5
+            },
+            {
+              "id": "q07",
+              "query": "a person right next to the camera tripod on the grass",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 120.0,
+                "score": 0.3075,
+                "via": "crop"
+              },
+              "n_results": 24,
+              "gt_coverage": 0.0452,
+              "query_ms": 115.7
+            },
+            {
+              "id": "q08",
+              "query": "people walking on the grass",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 115.0,
+                "score": 0.3294,
+                "via": "crop"
+              },
+              "n_results": 24,
+              "gt_coverage": 0.2768,
+              "query_ms": 116.0
+            },
+            {
+              "id": "q09",
+              "query": "a man in a red jacket walking on the grass",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 119.0,
+                "score": 0.3397,
+                "via": "crop"
+              },
+              "n_results": 24,
+              "gt_coverage": 0.1243,
+              "query_ms": 92.0
+            },
+            {
+              "id": "q10",
+              "query": "a man in a red jacket walking side by side with a blonde woman on the road",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 68.5,
+                "score": 0.3677,
+                "via": "crop"
+              },
+              "n_results": 25,
+              "gt_coverage": 0.2599,
+              "query_ms": 95.6
+            },
+            {
+              "id": "q11",
+              "query": "a man holding a colourful ball",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "indoor_desk.avi",
+                "t": 4.52,
+                "score": 0.3056,
+                "via": "crop"
+              },
+              "n_results": 23,
+              "gt_coverage": 0.0282,
+              "query_ms": 109.4
+            },
+            {
+              "id": "q12",
+              "query": "a man with his hand on top of a toy clown",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "indoor_desk.avi",
+                "t": 2.0,
+                "score": 0.2977,
+                "via": "crop"
+              },
+              "n_results": 25,
+              "gt_coverage": 0.0226,
+              "query_ms": 82.1
+            },
+            {
+              "id": "q13",
+              "query": "a man reaching across the table to pick up a ball",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "indoor_desk.avi",
+                "t": 4.52,
+                "score": 0.3401,
+                "via": "crop"
+              },
+              "n_results": 23,
+              "gt_coverage": 0.0169,
+              "query_ms": 108.1
+            },
+            {
+              "id": "q14",
+              "query": "colourful children's toys on a wooden table",
+              "category": "scene",
+              "rank": 1,
+              "top1": {
+                "video": "indoor_desk.avi",
+                "t": 0.0,
+                "score": 0.2272,
+                "via": "frame"
+              },
+              "n_results": 25,
+              "gt_coverage": 0.0791,
+              "query_ms": 103.9
+            },
+            {
+              "id": "q15",
+              "query": "a white van parked in front of a brick building",
+              "category": "scene",
+              "rank": 2,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 0.0,
+                "score": 0.3418,
+                "via": "crop"
+              },
+              "n_results": 24,
+              "gt_coverage": 0.904,
+              "query_ms": 116.0
+            },
+            {
+              "id": "q16",
+              "query": "a man in a striped short-sleeved shirt",
+              "category": "scene",
+              "rank": 9,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 61.5,
+                "score": 0.2201,
+                "via": "crop"
+              },
+              "n_results": 23,
+              "gt_coverage": 0.0791,
+              "query_ms": 95.3
+            }
+          ]
+        }
+      },
+      {
+        "key": "idle_nomotion",
+        "label": "Idle-padded vtest + indoor, crops, motion gate off",
+        "index_stats": [
+          {
+            "video_id": "37e664eb9f8c",
+            "video": "vtest_idle_padded.avi",
+            "duration_s": 199.5,
+            "sample_fps": 2.0,
+            "use_crops": true,
+            "motion": {
+              "frames_seen": 399,
+              "frames_kept": 399,
+              "frames_skipped": 0,
+              "kept_by_heartbeat": 0,
+              "skip_ratio": 0.0
+            },
+            "motion_method": "off",
+            "frames_embedded": 399,
+            "crops_embedded": 2790,
+            "items": 3189,
+            "index_wall_s": 177.64,
+            "sampled_frames_per_s": 2.25,
+            "realtime_factor": 1.12,
+            "timings_s": {
+              "decode_gate_s": 14.29,
+              "detect_s": 35.91,
+              "embed_s": 138.95,
+              "write_s": 2.71
+            },
+            "providers": {
+              "clip_image": "CPUExecutionProvider",
+              "yolo": "CPUExecutionProvider",
+              "clip_text": "CPUExecutionProvider"
+            }
+          },
+          {
+            "video_id": "89d8ce33e331",
+            "video": "indoor_desk.avi",
+            "duration_s": 6.6,
+            "sample_fps": 2.0,
+            "use_crops": true,
+            "motion": {
+              "frames_seen": 14,
+              "frames_kept": 14,
+              "frames_skipped": 0,
+              "kept_by_heartbeat": 0,
+              "skip_ratio": 0.0
+            },
+            "motion_method": "off",
+            "frames_embedded": 14,
+            "crops_embedded": 14,
+            "items": 28,
+            "index_wall_s": 3.24,
+            "sampled_frames_per_s": 4.32,
+            "realtime_factor": 2.04,
+            "timings_s": {
+              "decode_gate_s": 1.06,
+              "detect_s": 1.27,
+              "embed_s": 1.81,
+              "write_s": 0.09
+            },
+            "providers": {
+              "clip_image": "CPUExecutionProvider",
+              "yolo": "CPUExecutionProvider",
+              "clip_text": "CPUExecutionProvider"
+            }
+          }
+        ],
+        "metrics": {
+          "all": {
+            "recall@1": 0.8125,
+            "recall@5": 0.9375,
+            "recall@10": 1.0,
+            "median_rank": 1.0,
+            "mrr": 0.8632,
+            "not_found": 0,
+            "n": 16
+          },
+          "event": {
+            "recall@1": 0.9231,
+            "recall@5": 1.0,
+            "recall@10": 1.0,
+            "median_rank": 1.0,
+            "mrr": 0.9385,
+            "not_found": 0,
+            "n": 13
+          },
+          "scene": {
+            "recall@1": 0.3333,
+            "recall@5": 0.6667,
+            "recall@10": 1.0,
+            "median_rank": 2.0,
+            "mrr": 0.537,
+            "not_found": 0,
+            "n": 3
+          },
+          "random_baseline_recall@1_approx": 0.0752,
+          "per_query": [
+            {
+              "id": "q01",
+              "query": "a man and a woman walking together on the grass",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 115.0,
+                "score": 0.3395,
+                "via": "crop"
+              },
+              "n_results": 48,
+              "gt_coverage": 0.0387,
+              "query_ms": 85.8
+            },
+            {
+              "id": "q02",
+              "query": "a woman with curly blonde hair in a long black coat walking alone on the grass",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 128.5,
+                "score": 0.4268,
+                "via": "crop"
+              },
+              "n_results": 45,
+              "gt_coverage": 0.0823,
+              "query_ms": 123.8
+            },
+            {
+              "id": "q03",
+              "query": "a woman in a red jacket",
+              "category": "event",
+              "rank": 5,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 190.0,
+                "score": 0.3589,
+                "via": "crop"
+              },
+              "n_results": 45,
+              "gt_coverage": 0.1695,
+              "query_ms": 94.2
+            },
+            {
+              "id": "q04",
+              "query": "a person in a white hooded jacket",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 73.5,
+                "score": 0.3374,
+                "via": "crop"
+              },
+              "n_results": 46,
+              "gt_coverage": 0.0508,
+              "query_ms": 102.3
+            },
+            {
+              "id": "q05",
+              "query": "a man in a blue jacket and grey trousers",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 126.5,
+                "score": 0.342,
+                "via": "crop"
+              },
+              "n_results": 50,
+              "gt_coverage": 0.0436,
+              "query_ms": 107.2
+            },
+            {
+              "id": "q06",
+              "query": "a group of three people standing and talking next to a signpost",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 68.0,
+                "score": 0.3334,
+                "via": "crop"
+              },
+              "n_results": 45,
+              "gt_coverage": 0.0315,
+              "query_ms": 103.4
+            },
+            {
+              "id": "q07",
+              "query": "a person right next to the camera tripod on the grass",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 120.0,
+                "score": 0.3075,
+                "via": "crop"
+              },
+              "n_results": 48,
+              "gt_coverage": 0.0194,
+              "query_ms": 100.3
+            },
+            {
+              "id": "q08",
+              "query": "people walking on the grass",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 115.0,
+                "score": 0.3294,
+                "via": "crop"
+              },
+              "n_results": 47,
+              "gt_coverage": 0.1186,
+              "query_ms": 70.7
+            },
+            {
+              "id": "q09",
+              "query": "a man in a red jacket walking on the grass",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 119.0,
+                "score": 0.3397,
+                "via": "crop"
+              },
+              "n_results": 48,
+              "gt_coverage": 0.0533,
+              "query_ms": 99.1
+            },
+            {
+              "id": "q10",
+              "query": "a man in a red jacket walking side by side with a blonde woman on the road",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 68.5,
+                "score": 0.3677,
+                "via": "crop"
+              },
+              "n_results": 48,
+              "gt_coverage": 0.1114,
+              "query_ms": 115.9
+            },
+            {
+              "id": "q11",
+              "query": "a man holding a colourful ball",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "indoor_desk.avi",
+                "t": 4.52,
+                "score": 0.3056,
+                "via": "crop"
+              },
+              "n_results": 47,
+              "gt_coverage": 0.0121,
+              "query_ms": 107.7
+            },
+            {
+              "id": "q12",
+              "query": "a man with his hand on top of a toy clown",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "indoor_desk.avi",
+                "t": 2.0,
+                "score": 0.2977,
+                "via": "crop"
+              },
+              "n_results": 50,
+              "gt_coverage": 0.0097,
+              "query_ms": 100.1
+            },
+            {
+              "id": "q13",
+              "query": "a man reaching across the table to pick up a ball",
+              "category": "event",
+              "rank": 1,
+              "top1": {
+                "video": "indoor_desk.avi",
+                "t": 4.52,
+                "score": 0.3401,
+                "via": "crop"
+              },
+              "n_results": 47,
+              "gt_coverage": 0.0073,
+              "query_ms": 104.3
+            },
+            {
+              "id": "q14",
+              "query": "colourful children's toys on a wooden table",
+              "category": "scene",
+              "rank": 1,
+              "top1": {
+                "video": "indoor_desk.avi",
+                "t": 0.0,
+                "score": 0.2272,
+                "via": "frame"
+              },
+              "n_results": 48,
+              "gt_coverage": 0.0339,
+              "query_ms": 82.6
+            },
+            {
+              "id": "q15",
+              "query": "a white van parked in front of a brick building",
+              "category": "scene",
+              "rank": 2,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 0.0,
+                "score": 0.3418,
+                "via": "crop"
+              },
+              "n_results": 50,
+              "gt_coverage": 0.3874,
+              "query_ms": 80.3
+            },
+            {
+              "id": "q16",
+              "query": "a man in a striped short-sleeved shirt",
+              "category": "scene",
+              "rank": 9,
+              "top1": {
+                "video": "vtest_idle_padded.avi",
+                "t": 61.5,
+                "score": 0.2201,
+                "via": "crop"
+              },
+              "n_results": 46,
+              "gt_coverage": 0.0339,
+              "query_ms": 106.6
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "latency": [
+    {
+      "model": "clip_image.onnx",
+      "provider": "CPUExecutionProvider",
+      "runs": 50,
+      "mean_ms": 40.67,
+      "p95_ms": 49.59,
+      "size_mb": 351.6
+    },
+    {
+      "model": "clip_text.onnx",
+      "provider": "CPUExecutionProvider",
+      "runs": 50,
+      "mean_ms": 36.98,
+      "p95_ms": 45.13,
+      "size_mb": 254.2
+    },
+    {
+      "model": "yolov8n.onnx",
+      "provider": "CPUExecutionProvider",
+      "runs": 50,
+      "mean_ms": 44.35,
+      "p95_ms": 52.2,
+      "size_mb": 12.8
+    },
+    {
+      "model": "clip_image.int8.onnx",
+      "provider": "CPUExecutionProvider",
+      "runs": 50,
+      "mean_ms": 24.36,
+      "p95_ms": 31.86,
+      "size_mb": 89.3
+    },
+    {
+      "model": "clip_text.int8.onnx",
+      "provider": "CPUExecutionProvider",
+      "runs": 50,
+      "mean_ms": 24.03,
+      "p95_ms": 26.77,
+      "size_mb": 140.7
+    },
+    {
+      "model": "clip_image.w8a16.onnx",
+      "provider": "CPUExecutionProvider",
+      "runs": 50,
+      "mean_ms": 268.95,
+      "p95_ms": 298.49,
+      "size_mb": 89.9
+    },
+    {
+      "model": "clip_text.w8a16.onnx",
+      "provider": "CPUExecutionProvider",
+      "runs": 50,
+      "mean_ms": 153.87,
+      "p95_ms": 173.61,
+      "size_mb": 90.4
+    },
+    {
+      "model": "yolov8n.w8a16.onnx",
+      "provider": "CPUExecutionProvider",
+      "runs": 50,
+      "mean_ms": 125.6,
+      "p95_ms": 149.15,
+      "size_mb": 3.7
+    }
+  ],
+  "yolo_w8a16_agreement": {
+    "frames": 40,
+    "fp32_detections": 301,
+    "other_detections": 301,
+    "matched_iou>=0.5": 301,
+    "recall_vs_fp32": 1.0,
+    "precision_vs_fp32": 1.0
+  }
+}
