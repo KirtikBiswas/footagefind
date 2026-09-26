@@ -56,8 +56,9 @@ Things discovered and fixed while running (all have tests or eval evidence):
   (1.0 -> 0.99998 -> 255 of 256 channels). Rewriting to integer `sizes` fixed it (301/301 detections matched).
 * `qnn_preprocess_model` crashes on Ultralytics' ONNX metadata; metadata is stripped first.
 * ORT 1.30 refuses `session.disable_cpu_ep_fallback=1` when the CPU EP is registered; strict mode now registers only accelerator EPs.
-* Earlier eval runs: run 1 lost its output because I deleted `results/` mid-run (log kept as
-  `logs/eval_run1_failed_write.log`, not committed); run 2 used the broken w8a16 YOLO. Only run 3 is reported.
+* Earlier eval runs: run 1 lost its output because I deleted `results/` mid-run (log: `results/logs/eval_run1_failed_write.log`);
+  run 2 used the broken w8a16 YOLO (`results/logs/eval_run2_before_yolo_fix.log`, `RESULTS_run2_before_yolo_fix.md`).
+  Only run 3 is reported (`results/logs/eval_run3_final.log`). Quantization log: `results/logs/quantize.log`.
 
 ## 3. All measured numbers (copy of results/RESULTS.md)
 
