@@ -69,7 +69,7 @@ def hardware_info() -> dict:
     return info
 
 
-def hardware_label(info: dict | None = None) -> str:
+def hardware_label(info: dict | None = None, providers: str = "CPUExecutionProvider") -> str:
     info = info or hardware_info()
     return (f"{info['cpu_model']}, {info['logical_cores']} logical cores, {info['ram_gib']} GiB RAM, "
-            f"{info['os']} ({info['machine']}), onnxruntime {info['onnxruntime']} CPUExecutionProvider")
+            f"{info['os']} ({info['machine']}), onnxruntime {info['onnxruntime']} {providers}")

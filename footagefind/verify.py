@@ -16,7 +16,11 @@ from __future__ import annotations
 
 import base64
 import json
+import logging
 import math
+import os
+import shlex
+import subprocess
 import time
 import urllib.error
 import urllib.request
@@ -27,6 +31,8 @@ import cv2
 import numpy as np
 
 PROMPT = "Does this image show: {query}? Answer with a single word: yes or no."
+log = logging.getLogger("footagefind.verify")
+_server_proc: subprocess.Popen | None = None
 
 
 @dataclass
@@ -92,6 +98,7 @@ class OpenAICompatVerifier:
 
     def __init__(self, base_url: str = "http://127.0.0.1:8000/v1", model: str = "Qwen3-VL-4B-Instruct",
                  timeout_s: float = 60, api_key: str = "local", **_ignored):
+        # **_ignored swallows config keys meant for other layers (enabled, weight, ...)
         self.base_url = base_url.rstrip("/")
         self.model = model
         self.timeout_s = timeout_s
@@ -135,10 +142,58 @@ class OpenAICompatVerifier:
         return VerifyResult(p, answer, latency)
 
 
+def server_alive(base_url: str, timeout_s: float = 2.0) -> bool:
+    try:
+        with urllib.request.urlopen(base_url.rstrip("/") + "/models", timeout=timeout_s) as r:
+            return r.status == 200
+    except (urllib.error.URLError, TimeoutError, OSError, ValueError):
+        return False
+
+
+def ensure_server(base_url: str, start_command: str = "", wait_s: float = 180.0) -> bool:
+    """Lazy VLM loading: start the local VLM server only when verification is first requested.
+
+    A 4B-parameter VLM is the largest thing FootageFind could load. On a 16 GB
+    laptop it should not sit in memory while the user is only indexing or doing
+    CLIP search, so it runs as a separate process that is launched on demand
+    (``verify.start_command``, e.g. the ``geniex serve ...`` invocation for your
+    install) and can be closed independently. Returns True if the server answers.
+    """
+    global _server_proc
+    if server_alive(base_url):
+        return True
+    if not start_command:
+        return False
+    if _server_proc is None or _server_proc.poll() is not None:
+        log.info("starting VLM server: %s", start_command)
+        # Windows CreateProcess parses a command string itself; POSIX needs argv.
+        _server_proc = subprocess.Popen(start_command if os.name == "nt" else shlex.split(start_command))
+    deadline = time.time() + wait_s
+    while time.time() < deadline:
+        if server_alive(base_url):
+            return True
+        if _server_proc.poll() is not None:
+            log.warning("VLM server exited with code %s", _server_proc.returncode)
+            return False
+        time.sleep(1.0)
+    return False
+
+
+def stop_server() -> None:
+    global _server_proc
+    if _server_proc is not None and _server_proc.poll() is None:
+        _server_proc.terminate()
+    _server_proc = None
+
+
 def make_verifier(cfg: dict | None, enabled: bool | None = None) -> Verifier:
-    cfg = cfg or {}
+    cfg = dict(cfg or {})
     on = cfg.get("enabled", False) if enabled is None else enabled
-    return OpenAICompatVerifier(**cfg) if on else NoopVerifier()
+    if not on:
+        return NoopVerifier()
+    start_command = cfg.pop("start_command", "")
+    ensure_server(cfg.get("base_url", "http://127.0.0.1:8000/v1"), start_command, float(cfg.pop("start_wait_s", 180)))
+    return OpenAICompatVerifier(**cfg)
 
 
 def rerank(hits: list, images: list[np.ndarray], query: str, verifier: Verifier, weight: float = 0.5) -> list:

@@ -52,6 +52,11 @@ base_url = "http://127.0.0.1:8000/v1"    # e.g. `geniex serve` on Snapdragon
 model = "Qwen3-VL-4B-Instruct"
 timeout_s = 60
 weight = 0.5                             # blend: (1-w)*clip + w*vlm_yes
+# Lazy loading: if set, this command is run the first time verification is
+# requested and the server is not already up (e.g. your `geniex serve ...`
+# invocation). Empty = never start anything; just try base_url.
+start_command = ""
+start_wait_s = 180
 
 [audit]
 log_path = "logs/audit.jsonl"

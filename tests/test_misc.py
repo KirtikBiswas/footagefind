@@ -119,3 +119,39 @@ def test_rerank_promotes_vlm_yes(stub_server):
     same = rerank([Hit("v", 1, 0.3, 1, 1, 1, "frame"), Hit("v", 2, 0.2, 2, 2, 2, "frame")],
                   imgs, "q", NoopVerifier(), weight=0.5)
     assert [h.t for h in same] == [1, 2]
+
+
+def test_lazy_vlm_server_start(tmp_path):
+    """ensure_server() launches the configured command only when needed, then talks to it."""
+    import socket
+    import sys
+    from footagefind.verify import ensure_server, make_verifier, server_alive, stop_server
+
+    with socket.socket() as sock:
+        sock.bind(("127.0.0.1", 0))
+        port = sock.getsockname()[1]
+    base = f"http://127.0.0.1:{port}/v1"
+    script = tmp_path / "stub.py"
+    script.write_text(
+        "import json,sys\n"
+        "from http.server import BaseHTTPRequestHandler, HTTPServer\n"
+        "class H(BaseHTTPRequestHandler):\n"
+        "    def do_GET(self):\n"
+        "        self.send_response(200); self.end_headers(); self.wfile.write(b'{\"data\": []}')\n"
+        "    def do_POST(self):\n"
+        "        self.rfile.read(int(self.headers['Content-Length']))\n"
+        "        d=json.dumps({'choices':[{'message':{'content':'Yes'}}]}).encode()\n"
+        "        self.send_response(200); self.end_headers(); self.wfile.write(d)\n"
+        "    def log_message(self,*a): pass\n"
+        f"HTTPServer(('127.0.0.1',{port}),H).serve_forever()\n"
+    )
+    assert not server_alive(base, 0.5)
+    assert ensure_server(base, "", 1) is False                 # nothing configured -> nothing started
+    try:
+        v = make_verifier({"enabled": True, "base_url": base, "timeout_s": 5,
+                           "start_command": f'"{sys.executable}" "{script}"', "start_wait_s": 30, "weight": 0.5})
+        assert server_alive(base)
+        r = v.verify(np.zeros((8, 8, 3), np.uint8), "anything")
+        assert r.answer == "yes" and r.p_yes == 1.0
+    finally:
+        stop_server()

@@ -50,11 +50,15 @@ TOL = float(QUERIES["tolerance_s"])
 IDLE_PAD_S = 60.0
 
 
+CONFIG_PATH: str | None = None   # set by --config (e.g. configs/snapdragon.toml on device)
+
+
 def cpu_cfg(models: dict | None = None) -> dict:
-    over = {"runtime": {"providers": ["CPUExecutionProvider"]}}
+    """Default: force the CPU EP. With --config, use that file's providers unchanged."""
+    over: dict = {} if CONFIG_PATH else {"runtime": {"providers": ["CPUExecutionProvider"]}}
     if models:
         over["models"] = models
-    return load_config(overrides=over)
+    return load_config(CONFIG_PATH, overrides=over)
 
 
 # ------------------------------------------------------------------------ helpers
@@ -257,7 +261,7 @@ def write_markdown(res: dict, path: Path) -> None:
                      f"{fmt(a['median_rank'])} | {skipped}/{seen} | {sum(s['index_wall_s'] for s in st):.1f} |")
         L.append("")
 
-    L += ["## Per-model latency (ONNX Runtime, CPUExecutionProvider)", "",
+    L += [f"## Per-model latency (ONNX Runtime, {res['latency'][0]['provider'] if res['latency'] else 'n/a'})", "",
           f"Batch 1, static shapes, {res['latency'][0]['runs']} timed runs after 5 warm-up runs, on {hw}.", "",
           "| Model file | Precision | Size (MB) | Mean (ms) | p95 (ms) |", "|---|---|---|---|---|"]
     for b in res["latency"]:
@@ -310,7 +314,11 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--quick", action="store_true", help="skip quantized variants and idle-padded clip")
     ap.add_argument("--out", default=str(RESULTS / "cpu_eval.json"))
+    ap.add_argument("--config", help="extra TOML (e.g. configs/snapdragon.toml); its providers are used as-is")
+    ap.add_argument("--md", default=str(RESULTS / "RESULTS.md"))
     args = ap.parse_args()
+    global CONFIG_PATH
+    CONFIG_PATH = args.config
     WORK.mkdir(parents=True, exist_ok=True)
     RESULTS.mkdir(exist_ok=True)
     videos = [VIDEOS / name for name in QUERIES["videos"]]
@@ -319,7 +327,9 @@ def main() -> None:
             sys.exit(f"missing {v}; run scripts/download_assets.py first")
 
     hw = hardware_info()
-    res = {"date": time.strftime("%Y-%m-%d"), "hardware": hw, "hardware_label": hardware_label(hw),
+    eps = ",".join(cpu_cfg()["runtime"]["providers"])
+    res = {"date": time.strftime("%Y-%m-%d"), "hardware": hw, "hardware_label": hardware_label(hw, eps),
+           "config": args.config,
            "n_queries": len(QUERIES["queries"]), "tolerance_s": TOL}
     base_cfg = cpu_cfg()
     res["sample_fps"] = base_cfg["index"]["sample_fps"]
@@ -415,8 +425,8 @@ def main() -> None:
         res["yolo_w8a16_agreement"] = detection_agreement(ONNX / "yolov8n.onnx", ONNX / "yolov8n.w8a16.onnx", videos[0])
 
     Path(args.out).write_text(json.dumps(res, indent=2, default=str))
-    write_markdown(res, RESULTS / "RESULTS.md")
-    print("wrote", args.out, "and results/RESULTS.md", flush=True)
+    write_markdown(res, Path(args.md))
+    print("wrote", args.out, "and", args.md, flush=True)
 
 
 if __name__ == "__main__":
