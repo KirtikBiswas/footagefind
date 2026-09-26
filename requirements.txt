@@ -1,0 +1,26 @@
+# FootageFind - x86-64 / any-CPU development environment (tested: Python 3.11, Linux x86-64).
+# Versions are the ones the prototype was built and evaluated with.
+
+# --- runtime (app, CLI, search) ---
+numpy==2.4.6
+opencv-python-headless==5.0.0.93
+onnxruntime==1.30.0
+gradio==6.28.0
+regex==2026.9.10
+ftfy==6.3.1
+psutil==7.2.2
+sqlite-vec==0.1.9          # optional ANN-free vector backend; numpy is the default
+
+# --- model export + quantization (scripts/export_onnx.py, scripts/quantize_onnx.py) ---
+# CPU-only PyTorch is enough: pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch==2.14.0
+open_clip_torch==3.3.0
+ultralytics==8.4.163       # AGPL-3.0 - see README "Licenses"
+onnx==1.23.0
+
+# --- Qualcomm AI Hub client (scripts/aihub_compile_profile.py, needs an API token) ---
+qai-hub==0.55.0
+
+# --- tests / screenshots ---
+pytest==9.1.1
+playwright==1.63.0

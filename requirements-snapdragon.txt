@@ -1,0 +1,15 @@
+# FootageFind on a Snapdragon X laptop (Windows 11 on ARM, native ARM64 Python 3.11+).
+# UNTESTED ON DEVICE. Export/quantize the ONNX models on an x86 dev box (requirements.txt)
+# and copy models/onnx/ over, so PyTorch/ultralytics are not needed here.
+
+# ONNX Runtime with the QNN execution provider (bundles QnnHtp.dll and the HTP
+# skel libraries). Do NOT also install plain `onnxruntime`: both provide the
+# same `onnxruntime` Python module and the last one installed wins.
+onnxruntime-qnn>=1.20
+
+numpy>=2.0
+opencv-python-headless>=4.10   # check a win_arm64 wheel exists for your Python version
+gradio>=5.0
+regex
+ftfy
+psutil
