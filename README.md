@@ -1,12 +1,26 @@
 # FootageFind
 
 **Type what happened, get the timestamps.** FootageFind is offline, natural-language search over the
-CCTV footage you have already exported from your DVR/NVR. It is built for Snapdragon X-series AI PCs
-(Windows 11 on ARM, Hexagon NPU).
+CCTV footage you have already exported from your DVR/NVR. It is designed for Snapdragon X-series AI PCs
+(Windows 11 on ARM, Hexagon NPU); so far it has been tested on CPU only.
 
-> *"person carrying a large bag near the gate"* -> `00:44.5`, `01:12.0`, `01:18.5` ... click, and the clip plays from there.
+> *"a woman in a red jacket"* -> `01:18.5`, `00:44.5`, `00:56.0` ... click, and the clip plays from there.
+> (Real output from the prototype on `vtest.avi`; see the screenshot below.)
 
 Built for the **Qualcomm Snapdragon AI Lab Build & Present Challenge (India, 2026)**.
+
+### Validation status at a glance
+
+| Component | Status |
+|---|---|
+| Indexing, search, playback, Gradio UI, CLI, audit log | Working; tested on CPU (x86 VM) |
+| Retrieval accuracy and CPU latency | Measured: [results/RESULTS.md](results/RESULTS.md) |
+| w8a16 (NPU-format) models | Built; accuracy verified on CPU |
+| QNN execution provider / Hexagon NPU | Implemented and unit-tested; **not yet run on Snapdragon hardware** |
+| Qualcomm AI Hub compile/profile | Script ready; **not yet run** |
+| Local VLM verification (Qwen3-VL via GenieX) | Client built; tested only against a stub server |
+
+No Snapdragon or NPU performance numbers exist for this project yet.
 
 ---
 
@@ -169,6 +183,13 @@ run**.
 | `python -m footagefind audit --last 20` | show the query audit log |
 | `python -m footagefind.app [--config ...] [--port 7860]` | the UI |
 
+### Example queries (from the evaluation set, `eval/queries.json`)
+
+On `vtest.avi`: "a woman in a red jacket", "a man and a woman walking together on the grass",
+"a person in a white hooded jacket", "a group of three people standing and talking next to a signpost".
+On `indoor_desk.avi`: "a man holding a colourful ball", "colourful children's toys on a wooden table".
+Per-query ranks are in [results/RESULTS.md](results/RESULTS.md).
+
 Configuration lives in `configs/default.toml` (sampling rate, motion thresholds, detector classes,
 merge window, VLM endpoint, audit-log path). Pass `--config other.toml` to override any part of it.
 
@@ -242,4 +263,4 @@ FootageFind's own code is **MIT** (see `LICENSE`). Third-party components keep t
 | OpenCV | decoding, image ops | Apache-2.0 |
 | Gradio | UI | Apache-2.0 |
 | sqlite-vec (optional) | vector backend | MIT / Apache-2.0 |
-| Test videos (`vtest.avi` from OpenCV samples; `1920x1080.avi` from opencv_extra) | evaluation | distributed with OpenCV's repositories; downloaded by script, not re-hosted here. `eval/evidence/` contains downscaled stills from them for ground-truth documentation. |
+| Test videos (`vtest.avi` from OpenCV samples; `1920x1080.avi` from opencv_extra) | evaluation | distributed with OpenCV's repositories; downloaded by script, not re-hosted here. The `vtest.avi` scene appears to come from the PETS 2009 benchmark; check its original terms before any commercial use. `eval/evidence/` contains downscaled stills from them for ground-truth documentation. |
