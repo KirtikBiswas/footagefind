@@ -90,3 +90,27 @@ def test_node_placement_probe(tmp_path):
 def test_missing_model_gives_actionable_error(tmp_path):
     with pytest.raises(FileNotFoundError, match="export_onnx"):
         OrtModel(tmp_path / "nope.onnx", RT)
+
+
+def test_resize_scales_rewritten_to_integer_sizes(tmp_path):
+    """Regression: quantizing Resize's float `scales` dropped a channel in w8a16 YOLOv8n."""
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+    import onnxruntime as ort
+    from quantize_onnx import resize_scales_to_sizes
+
+    x = helper.make_tensor_value_info("x", TensorProto.FLOAT, [1, 3, 4, 4])
+    y = helper.make_tensor_value_info("y", TensorProto.FLOAT, None)
+    scales = helper.make_node("Constant", [], ["s"], value=helper.make_tensor("sv", TensorProto.FLOAT, [4], [1, 1, 2, 2]))
+    rs = helper.make_node("Resize", ["x", "", "s"], ["y"], mode="nearest", name="up")
+    m = helper.make_model(helper.make_graph([scales, rs], "g", [x], [y]), opset_imports=[helper.make_opsetid("", 17)])
+    m.ir_version = 8
+    feed = {"x": np.random.default_rng(0).random((1, 3, 4, 4), dtype=np.float32)}
+    ref = ort.InferenceSession(m.SerializeToString()).run(None, feed)[0]
+    assert resize_scales_to_sizes(m) == 1
+    node = [n for n in m.graph.node if n.op_type == "Resize"][0]
+    assert node.input[2] == "" and node.input[3] == "up_sizes"
+    out = ort.InferenceSession(m.SerializeToString()).run(None, feed)[0]
+    assert out.shape == (1, 3, 8, 8)
+    np.testing.assert_array_equal(out, ref)

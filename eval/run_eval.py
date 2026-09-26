@@ -239,7 +239,7 @@ def write_markdown(res: dict, path: Path) -> None:
         L.append(f"| {row['label']} | {', '.join(s['video'] for s in st)} | {wall:.1f} | {seen} | {kept} | {crops} | "
                  f"{seen / wall:.2f} | {dur / wall:.2f} |")
     L += ["", "x real time = seconds of video indexed per wall-clock second. Model load time is excluded; "
-          "YOLO is always FP32 so the CLIP precision rows isolate the CLIP change.", ""]
+          "YOLO is FP32 in every row except the 'all w8a16' row, so the CLIP precision rows isolate the CLIP change.", ""]
 
     if res.get("idle_padded"):
         ip = res["idle_padded"]
@@ -389,6 +389,17 @@ def main() -> None:
                                      "precision": label, "use_crops": True, "motion": True,
                                      "index_stats": stats, "metrics": m})
             print(f"   R@1={m['all']['recall@1']} R@5={m['all']['recall@5']} R@10={m['all']['recall@10']}", flush=True)
+            yolo_q = ONNX / "yolov8n.w8a16.onnx"
+            if prec == "w8a16" and yolo_q.exists():
+                print("== all three models w8a16", flush=True)
+                cfg = cpu_cfg({"clip_image": str(img_p), "clip_text": str(txt_p), "yolo": str(yolo_q)})
+                ff, stats = build_index("w8a16_all_crops_motion", cfg, videos, True, True, {})
+                m = evaluate(ff)
+                res["retrieval"].append({"key": "w8a16_all_crops_motion",
+                                         "label": "Frames + crops, motion on, CLIP + YOLO all w8a16 (full NPU numerics)",
+                                         "precision": "w8a16 (CLIP + YOLO)", "use_crops": True, "motion": True,
+                                         "index_stats": stats, "metrics": m})
+                print(f"   R@1={m['all']['recall@1']} R@5={m['all']['recall@5']} R@10={m['all']['recall@10']}", flush=True)
         res["embedding_fidelity"] = fidelity
 
         print("== idle-padded synthetic clip", flush=True)

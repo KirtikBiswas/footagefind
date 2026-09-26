@@ -63,6 +63,46 @@ class Reader(CalibrationDataReader):
         self.i = 0
 
 
+def resize_scales_to_sizes(model: "onnx.ModelProto") -> int:
+    """Rewrite Resize(scales=const float) as Resize(sizes=const int64).
+
+    The QNN QDQ config quantizes *every* float tensor, including Resize's
+    `scales` input. [1, 1, 2, 2] in UINT16 dequantizes to [0.99998, 0.99998, 2, 2];
+    ORT then computes floor(256 * 0.99998) = 255 channels and silently drops a
+    feature map. That wrecked the first w8a16 YOLOv8n (12% of FP32 detections).
+    Integer `sizes` are never quantized. Needs static shapes (which we have).
+    """
+    from onnx import numpy_helper, shape_inference
+
+    inferred = shape_inference.infer_shapes(model)
+    shapes = {v.name: [d.dim_value for d in v.type.tensor_type.shape.dim]
+              for v in list(inferred.graph.value_info) + list(inferred.graph.input) + list(inferred.graph.output)}
+    consts = {n.output[0]: n for n in model.graph.node if n.op_type == "Constant"}
+    inits = {i.name: i for i in model.graph.initializer}
+    changed = 0
+    for node in model.graph.node:
+        if node.op_type != "Resize" or len(node.input) < 3 or not node.input[2]:
+            continue
+        src = node.input[2]
+        if src in consts:
+            scales = numpy_helper.to_array(consts[src].attribute[0].t)
+        elif src in inits:
+            scales = numpy_helper.to_array(inits[src])
+        else:
+            continue
+        in_shape = shapes.get(node.input[0])
+        if not in_shape or 0 in in_shape:
+            continue
+        sizes = np.floor(np.array(in_shape) * scales).astype(np.int64)
+        name = node.name + "_sizes"
+        model.graph.initializer.append(numpy_helper.from_array(sizes, name))
+        del node.input[2:]
+        node.input.extend(["", name])       # Resize(X, roi="", scales="", sizes)
+        node.input[2] = ""
+        changed += 1
+    return changed
+
+
 def quantize_int8(src: Path, dst: Path, input_name: str, data: np.ndarray) -> dict:
     t0 = time.time()
     pre = dst.with_suffix(".pre.onnx")
@@ -85,7 +125,8 @@ def quantize_qnn_w8a16(src: Path, dst: Path, input_name: str, data: np.ndarray) 
     src_name = src.name
     pre = dst.with_suffix(".pre.onnx")
     m = onnx.load(str(src))
-    if len(m.metadata_props):
+    n_resize = resize_scales_to_sizes(m)
+    if len(m.metadata_props) or n_resize:
         # Ultralytics writes metadata_props that make qnn_preprocess_model crash
         # (TypeError in save_and_reload_optimize_model, ORT 1.30); strip them first.
         del m.metadata_props[:]
@@ -101,7 +142,8 @@ def quantize_qnn_w8a16(src: Path, dst: Path, input_name: str, data: np.ndarray) 
     pre.unlink(missing_ok=True)
     dst.with_suffix(".nometa.onnx").unlink(missing_ok=True)
     return {"mode": "qnn w8a16", "src": src_name, "dst": dst.name, "calibration_samples": int(len(data)),
-            "calibration": "MinMax", "op_types": "all (QNN QDQ config)", "seconds": round(time.time() - t0, 1),
+            "calibration": "MinMax", "op_types": "all (QNN QDQ config)",
+            "resize_scales_rewritten_to_sizes": n_resize, "seconds": round(time.time() - t0, 1),
             "size_mb": round(dst.stat().st_size / 1e6, 1)}
 
 
