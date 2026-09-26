@@ -63,18 +63,26 @@ def select_providers(rt_cfg: dict, available: list[str] | None = None) -> Provid
     if env:  # e.g. FOOTAGEFIND_PROVIDERS=CPUExecutionProvider
         requested = [p.strip() for p in env.split(",") if p.strip()]
     available = list(ort.get_available_providers() if available is None else available)
+    strict = bool(rt_cfg.get("disable_cpu_ep_fallback"))
     plan = ProviderPlan(requested=requested, available=available, providers=[])
     for name in requested:
         if name not in available:
             plan.skipped.append(name)
             continue
+        if strict and name == CPU:
+            # ORT refuses a session that both registers the CPU EP and disables
+            # CPU fallback ("Conflicting session configuration"), so strict mode
+            # means: accelerator EPs only.
+            plan.skipped.append(name)
+            continue
         opts = qnn_provider_options(rt_cfg) if name == QNN else {}
         plan.providers.append((name, opts))
     if not plan.providers:
-        if rt_cfg.get("disable_cpu_ep_fallback"):
+        if strict:
             raise RuntimeError(
-                f"None of the requested providers {requested} are available "
-                f"(installed onnxruntime offers {available}) and CPU fallback is disabled."
+                f"disable_cpu_ep_fallback is set but none of the requested accelerator providers "
+                f"{[p for p in requested if p != CPU]} are available (installed onnxruntime offers {available}). "
+                "Install onnxruntime-qnn on Windows ARM64, or set disable_cpu_ep_fallback = false."
             )
         plan.providers.append((CPU, {}))
     return plan

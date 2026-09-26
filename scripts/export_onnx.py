@@ -30,6 +30,34 @@ OUT = ROOT / "models" / "onnx"
 OPSET = 17
 
 
+def finite_attention_masks(path: Path, value: float = -100.0) -> int:
+    """Replace -inf in constant attention masks with a finite large negative.
+
+    open_clip's causal text mask is a float tensor of 0 / -inf. -inf breaks
+    MinMax calibration (quantization scale becomes inf/NaN), which produced a
+    garbage w8a16 text encoder (cosine 0.37 to FP32). After softmax,
+    exp(-100) is indistinguishable from exp(-inf), so FP32 outputs are
+    unchanged (checked against PyTorch below).
+    """
+    import onnx
+    from onnx import numpy_helper
+
+    m = onnx.load(str(path))
+    n = 0
+    for node in m.graph.node:
+        if node.op_type != "Constant":
+            continue
+        for attr in node.attribute:
+            if attr.name == "value" and attr.t.data_type == onnx.TensorProto.FLOAT:
+                arr = numpy_helper.to_array(attr.t)
+                if np.isinf(arr).any():
+                    arr = np.where(np.isneginf(arr), np.float32(value), arr).astype(np.float32)
+                    attr.t.CopyFrom(numpy_helper.from_array(arr, attr.t.name))
+                    n += 1
+    onnx.save(m, str(path))
+    return n
+
+
 def export_clip(image_batch: int, text_batch: int, report: dict) -> None:
     import onnxruntime as ort
     import open_clip
@@ -76,6 +104,7 @@ def export_clip(image_batch: int, text_batch: int, report: dict) -> None:
                 opset_version=OPSET, dynamic_axes=None, dynamo=False, do_constant_folding=True,
             )
             ref = module(example).numpy()
+        n_masks = finite_attention_masks(path) if name == "clip_text" else 0
         sess = ort.InferenceSession(str(path), providers=["CPUExecutionProvider"])
         got = sess.run(None, {in_name: example.numpy()})[0]
         report[name] = {
@@ -83,6 +112,7 @@ def export_clip(image_batch: int, text_batch: int, report: dict) -> None:
             "input_dtype": str(example.numpy().dtype), "output_shape": list(got.shape),
             "max_abs_diff_vs_torch": float(np.abs(ref - got).max()),
             "export_seconds": round(time.time() - t0, 1), "size_mb": round(path.stat().st_size / 1e6, 1),
+            "inf_masks_made_finite": n_masks,
         }
         print(name, report[name])
 

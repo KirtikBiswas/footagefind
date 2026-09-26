@@ -38,10 +38,10 @@ def square_crop(frame: np.ndarray, box: tuple[int, int, int, int], pad: float = 
     """
     H, W = frame.shape[:2]
     x1, y1, x2, y2 = box
-    side = max(x2 - x1, y2 - y1) * (1 + 2 * pad)
+    side = max(1, int(round(max(x2 - x1, y2 - y1) * (1 + 2 * pad))))
     cx, cy = (x1 + x2) / 2, (y1 + y2) / 2
     a, b = int(round(cx - side / 2)), int(round(cy - side / 2))
-    c, d = int(round(cx + side / 2)), int(round(cy + side / 2))
+    c, d = a + side, b + side
     crop = frame[max(0, b) : min(H, d), max(0, a) : min(W, c)]
     # pad with grey where the square runs off the frame edge
     top, left = max(0, -b), max(0, -a)

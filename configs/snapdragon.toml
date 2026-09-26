@@ -1,5 +1,7 @@
 # Snapdragon X (Windows 11 on ARM) profile. Same code path as default.toml,
-# but points at INT8/w8a16 QDQ models and forbids silent CPU fallback.
+# but points at w8a16 QDQ models (INT8 weights, UINT16 activations; produced by
+# scripts/quantize_onnx.py or an AI Hub quantize job) and forbids silent CPU
+# fallback so any unsupported op fails loudly instead of running on the CPU.
 # NOTE: untested on device at the time of writing; see docs/SNAPDRAGON.md.
 
 [runtime]
@@ -11,9 +13,9 @@ qnn_context_cache = true
 intra_op_threads = 0
 
 [models]
-clip_image = "models/onnx/clip_image.qdq.onnx"
-clip_text = "models/onnx/clip_text.qdq.onnx"
-yolo = "models/onnx/yolov8n.qdq.onnx"
+clip_image = "models/onnx/clip_image.w8a16.onnx"
+clip_text = "models/onnx/clip_text.w8a16.onnx"
+yolo = "models/onnx/yolov8n.w8a16.onnx"
 
 [verify]
 enabled = false
