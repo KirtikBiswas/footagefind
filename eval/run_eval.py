@@ -424,6 +424,8 @@ def main() -> None:
     if not args.quick and (ONNX / "yolov8n.w8a16.onnx").exists():
         res["yolo_w8a16_agreement"] = detection_agreement(ONNX / "yolov8n.onnx", ONNX / "yolov8n.w8a16.onnx", videos[0])
 
+    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
+    Path(args.md).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(res, indent=2, default=str))
     write_markdown(res, Path(args.md))
     print("wrote", args.out, "and", args.md, flush=True)
